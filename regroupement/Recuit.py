@@ -15,9 +15,9 @@ from Metropolis import Metropolis
 
 def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 	''' Function computing the simulated annealing, with the corresponding dynamic of Metropolis.
-		It corresponds to the sucession of Markov chains computed with decreasing temperatures. At the end
+		It corresponds to the succession of Markov chains computed with decreasing temperatures. At the end
 		we obtain a state G_out that minimizes the energy we defined, that is to say the sum of the delta_v
-		associated to each groups.
+		associated to each groups. G_out contains the final groups that reach this minimal "global delta_v".
 
 
 
@@ -36,13 +36,12 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 	Returns:
 		G_out (matrix) : Output state of the dynamic of Metropolis 
 		E_out (float) : Energy associated to the new state G_out
-		Proba (array) : Vector containing the frequency of each energy in the Simulated annealing process
+		freqs (array) : Frequencies associated to each energy
 
 	'''
 
 	E_evol = np.zeros(t_iter) 	# Evolution of Energy along Markov chain
-	Proba = np.zeros(n_classes)
-	moy = 1./(n_iter**2)
+	freqs = np.zeros(n_classes)
 
 	# Initializing Temperature
 	T = Ti
@@ -51,7 +50,7 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 	r = np.ceil(np.log(Tf/Ti)/np.log(alpha))
 
 	# Number of values for Energy (at each T) we keep for final display
-	k = 10
+	k = int(np.floor(t_iter/4))
 
 	# Evolution of Energy along the whole simulated annealing process
 	E_evol_global = np.zeros(int(r*k))
@@ -60,11 +59,24 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 
 	while T > Tf:
 
+		print(T)
+
 		for i in range(n_iter):
 
 			if T == Ti:
+				# Initialization of a random state 
 				G_out,E_out = Init_alea_G(nb_debris, card_grp, DV)
 				E_evol[0] = E_out
+
+			# Transitory Markov Chain to reach a minimum
+			for t in range(1,t_iter):
+				G_in = G_out
+				E_in = E_out
+				G_out, E_out = Metropolis(G_in, E_in, DV,T)
+				E_evol[t] = E_out
+
+			# Beginning of the recorded trajectory
+			E_evol[0] = E_evol[-1]
 
 			for t in range(1,t_iter):
 				G_in = G_out
@@ -72,52 +84,33 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 				G_out, E_out = Metropolis(G_in, E_in, DV,T)
 				E_evol[t] = E_out
 			
-			if i == 0 :
+			# Getting the last portion of the chain for this T (for the plot)
+			if i == n_iter-1 :
 				E_evol_global[k*(count-1):k*count] = E_evol[t_iter-k-1:-1]
 
-			frequency, bins = np.histogram(E_evol, bins=n_classes)
-			Proba = Proba + moy*frequency
+			frequency, bins = np.histogram(E_evol, bins = n_classes, range = (0,n_classes))
+			freqs += frequency
 
 
 		T = alpha*T
 		count += 1
 
 	# Plotting the histogram
-	x_hist = [j for j in range(n_classes)]
-	x_E = [k for k in range(int(r*k))]
-
-	plt.figure
-	plt.plot(x_hist, Proba)
-	plt.title('Frequency of resulting Delta V')
+	x_hist = np.arange(n_classes)
+	plt.plot(x_hist, freqs)
+	plt.title('Frequency of Energies')
+	plt.xlabel('Energy')
+	plt.ylabel('Frequency')
 	plt.show()
+
+	x_E = [k for k in range(int(r*k))]
 
 	plt.figure
 	plt.plot(x_E, E_evol_global)
 	plt.title('Evolution of Energy along the Simulated Annealing')
 	plt.show()
 
-	return G_out, E_out, Proba
-
-
-if __name__ == "__main__":
-	nb_debris = 5
-	card_grp = 2
-
-	DV = np.array([[0,2,1,3,4],[0,0,1,2,5],[0,0,0,3,1],[0,0,0,0,3],[0,0,0,0,0]])
-
-	Ti = 1
-	Tf = 0.1
-
-	alpha = 0.95
-
-	n_classes = 10
-	t_iter = 50
-	n_iter = 1
-
-	G,E,Proba = Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter)
-
-	print(G)
-	print(E)
+	return G_out, E_out
 
 
 

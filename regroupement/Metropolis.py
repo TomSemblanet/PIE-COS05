@@ -85,25 +85,6 @@ def Metropolis(G_in, E_in, DV,T):
 	return G_out, E_out
 
 
-if __name__ == "__main__":
-	nb_debris = 5
-	card_grp = 2
-
-	DV = np.array([[0,2,1,3,4],[0,0,1,2,5],[0,0,0,3,1],[0,0,0,0,3],[0,0,0,0,0]])
-
-	G_in,E_in = Init_alea_G(nb_debris,card_grp,DV)
-
-	T = 5
-
-	G_out,E_out = Metropolis(G_in,E_in,DV,T)
-
-	print('G_in = \n', G_in)
-	print('\n')
-	print('E_in = ', E_in)
-	print('\n')
-	print('G_out = \n', G_out)
-	print('\n')
-	print('E_out = ', E_out)
 
 
 
