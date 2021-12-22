@@ -67,7 +67,7 @@ def Gibbs(nb_debris, card_grp, DV, T, n_classes, t_iter, n_iter):
 	plt.figure
 	x_hist = np.arange(n_classes)
 	plt.plot(x_hist,freqs)
-	plt.title('Gibbs Distribution')
+	plt.title('Gibbs Distribution for T = %f' %T)
 	plt.xlabel('Energy')
 	plt.ylabel('Frequency')
 	plt.show()

@@ -64,8 +64,8 @@ if __name__ == "__main__":
 	###################
 
 	# n_classes = 200
-	# t_iter = 200
-	# n_iter = 50
+	# t_iter = 100
+	# n_iter = 100
 
 	# list_T = [1, 0.5, 0.1, 0.05, 0.01, 0.005, 0.001]
 
@@ -82,18 +82,17 @@ if __name__ == "__main__":
 	# TESTS FOR RECUIT #
 	####################
 
-	# Final and Initial Temperature
-	Ti = 1
-	Tf = 0.1
+	# # Final and Initial Temperature
+	# Ti = 1
+	# Tf = 0.1
 
-	alpha = 0.95
+	# alpha = 0.95
 
-	n_classes = 200
-	t_iter = 200
-	n_iter = 10
+	# n_classes = 200
+	# t_iter = 200
+	# n_iter = 100
 
-	G, E = Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter)
-
+	# G, E = Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter)
 
 
 
