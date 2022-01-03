@@ -89,7 +89,7 @@ def AOP_dV(w1, w2, RAAN, a, e, i, m):
     coe = np.array([a, e, i, w1, RAAN, ta])
     r = kep2cart(coe, mu_EARTH)
 
-    L = np.linalg.norm(np.cross(r[:3], r[3:]))
+    L = np.linalg.norm(np.cross(r[0], r[1]))
 
     dV = 2 * mu_EARTH * m * e * np.sin(delta_w/2) / L
 
