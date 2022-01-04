@@ -1,11 +1,13 @@
+# Tom
+
 import numpy as np
 from numpy import linalg as LA
 
-from . import recoveringDebrisData2 as RDB
+import recoveringDebrisData2 as RDB
 
-from .utils import calcul_V
+from utils import calcul_V
 
-from .calculs_dV import SMA_dV, INC_dV, AOP_dV
+from calculs_dV import SMA_dV, INC_dV, AOP_dV
 
 debris_data = RDB.convertTLEtoDF(RDB.recoveringDebrisData())
 ordered_debris = debris_data.sort_values(by=["RAAN (rad)"], ascending=False)
