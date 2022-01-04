@@ -9,9 +9,9 @@ import numpy as np
 import random as rd
 import matplotlib.pyplot as plt
 
-from energy_computation import energy_computation
-from Init_alea_G import Init_alea_G
-from Metropolis import Metropolis
+from regroupement.optimizer.energy_computation import energy_computation
+from regroupement.optimizer.Init_alea_G import Init_alea_G
+from regroupement.optimizer.Metropolis import Metropolis
 
 
 def Gibbs(nb_debris, card_grp, DV, T, n_classes, t_iter, n_iter):

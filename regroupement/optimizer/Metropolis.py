@@ -7,8 +7,8 @@ Created on 08/12/2021
 
 import numpy as np
 import random as rd
-from energy_computation import energy_computation
-from Init_alea_G import Init_alea_G
+from regroupement.optimizer.energy_computation import energy_computation
+from regroupement.optimizer.Init_alea_G import Init_alea_G
 
 def Metropolis(G_in, E_in, DV,T):
 	''' Function computing the dynamic of Metropolis. A neighbour of a state G is defined

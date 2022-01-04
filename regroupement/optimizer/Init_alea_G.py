@@ -7,7 +7,7 @@ Created on 08/12/2021
 
 import numpy as np
 import random as rd
-from energy_computation import energy_computation
+from regroupement.optimizer.energy_computation import energy_computation
 
 def Init_alea_G(nb_debris, card_grp, DV):
 	''' Function used to initiate the optimization
