@@ -31,7 +31,7 @@ def Metropolis(G_in, E_in, DV,T):
 	nb_grp = np.size(G_in,1)
 	G = np.copy(G_in)
 
-	# # Max and min sizes of groups
+	# Max and min sizes of groups
 	s_M = 5
 	s_m = 4
 
