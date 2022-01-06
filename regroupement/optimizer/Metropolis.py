@@ -35,8 +35,6 @@ def Metropolis(G_in, E_in, DV,T):
 	s_M = 5
 	s_m = 4
 
-	# print(G)
-
 	#########################
 	# NEIGHBOUR COMPUTATION #
 	#########################
