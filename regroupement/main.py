@@ -16,17 +16,17 @@ if __name__ == "__main__":
 	debris_data = DDL.convertTLEtoDF(DDL.recoveringDebrisData())
 
 	# Implementing arguments for Recuit
-	nb_debris = 19
+	nb_debris = len(debris_data)
 	card_grp = 5
 
 	DV = dV_matrix_generation(debris_data)
 
-	Ti = 0.1
-	Tf = 0.01
+	Ti = 1
+	Tf = 0.005
 
 	alpha = 0.95
 
-	n_classes = 10
+	n_classes = 100
 	t_iter = 100
 	n_iter = 50
 

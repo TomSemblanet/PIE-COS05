@@ -39,7 +39,7 @@ def total_dV_computation(ordered_debris, k, l):
         dV_AOP = AOP_dV(w, w2, omega, a, e, i, mass)
         w = w2
 
-        print("{} km/s".format(dV_AOP))
+        # print("{} km/s".format(dV_AOP))
 
         # SMA modification cost [m/s]
         dV_SMA = SMA_dV(a, a2)

@@ -57,9 +57,13 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 
 	count = 1
 
+	print('\n #########')
+	print('ITERATION')
+	print('#########\n')
+
 	while T > Tf:
 
-		print(T)
+		print(count, '/', r)
 
 		for i in range(n_iter):
 
