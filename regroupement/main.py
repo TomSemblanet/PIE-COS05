@@ -5,21 +5,21 @@ Created on 16/12/2021
 @author: Yvan GARY
 """
 
-from regroupement.delta_v_computation import recoveringDebrisData2 as RDB
-from regroupement.delta_v_computation.DV_computation import Generate_DV_Matrix
+from utils import debris_data_loader as DDL
+from regroupement.dV_computations.dV_matrix import dV_matrix_generation
 
 from regroupement.optimizer.Recuit import Recuit
 
 
 if __name__ == "__main__":
 
-	debris_data = RDB.convertTLEtoDF(RDB.recoveringDebrisData())
+	debris_data = DDL.convertTLEtoDF(DDL.recoveringDebrisData())
 
 	# Implementing arguments for Recuit
 	nb_debris = 19
 	card_grp = 5
 
-	DV = Generate_DV_Matrix(debris_data)
+	DV = dV_matrix_generation(debris_data)
 
 	Ti = 0.1
 	Tf = 0.01

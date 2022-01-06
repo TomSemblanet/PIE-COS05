@@ -1,13 +1,21 @@
-""" This module computes the delta-Vs necessary to change orbital parameters : SMA, ECC, INC, AOP, RAAN and TA """
+""" This module computes the delta-Vs necessary to change orbital parameters : 
+        - SMA (semi-major axis) 
+        - ECC (eccentricity)
+        - INC (inclination)
+        - AOP (argument of perigee)
+        - RAAN (right ascension of the ascending node)
+        - TA (true anomaly)
+"""
 
 import numpy as np
 
-from utilitaires.coc import kep2cart
-from utilitaires.constants import mu_EARTH
+from utils.coc import kep2cart
+from utils.constants import mu_EARTH
 
 
 def SMA_dV(a1, a2):
     """ Computes the delta-V [km/s] required to modify the SMA of the orbit from ai to af 
+
             inputs : 
             ------
                     - a1 : float
@@ -20,7 +28,7 @@ def SMA_dV(a1, a2):
                             Required delta-V [km/s]
     """
 
-    # speed in the orbit assuming it to be circular [km/s]
+    # Speed on the orbit assuming it to be circular [km/s]
     V = np.sqrt(mu_EARTH/a1)
     delta_a = np.abs(a2 - a1)
 
@@ -31,6 +39,7 @@ def SMA_dV(a1, a2):
 
 def INC_dV(i1, i2, V1):
     """ Computes the delta-V [km/s] required to modify the INC of the orbit from i1 to i2 
+
             inputs : 
             ------
                     - a1 : float
@@ -45,7 +54,7 @@ def INC_dV(i1, i2, V1):
                             Required delta-V [km/s]
     """
 
-    dV = V1 * np.abs(i2 - i1)
+    dV = 2 * V1 * np.sin((i2 - i1) / 2)
 
     return dV
 
@@ -75,13 +84,6 @@ def AOP_dV(w1, w2, RAAN, a, e, i, m):
     """
 
     delta_w = np.abs(w2 - w1)
-    ta = 0.5 * delta_w
-
-    coe = np.array([a, e, i, w1, RAAN, ta])
-    r = kep2cart(coe, mu_EARTH)
-
-    L = np.linalg.norm(np.cross(r[0], r[1]))
-
-    dV = 2 * mu_EARTH * m * e * np.sin(delta_w/2) / L
+    dV = 2 * np.sqrt(mu_EARTH / a / (1 - e**2)) * np.sin(delta_w/2)
 
     return dV

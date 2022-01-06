@@ -1,16 +1,9 @@
-""" This module computes intermadiary data like velocity, angular momentum, effect of J2 perturbation on RAAN """
+""" This module computes intermadiary data like velocity, 
+    angular momentum, effect of J2 perturbation on RAAN """
 
 import numpy as np
 from numpy import linalg as LA
-from utilitaires.coc import kep2cart
-
-
-def calcul_V(a):
-    # param gravitationnel standard terreste mu = G*mTerre
-    mu = 398600.4418
-    V = np.sqrt(mu/a)
-    return V
-
+from utils.coc import kep2cart
 
 def angular_momentum(r_v):
     r = r_v[0]
@@ -32,7 +25,5 @@ def derive_omega(a, i, w, M, e, omega, nu, mass):
     return derive
 
 # dérive relative du RAAN (effet gravitationnel J2) entre deux orbites
-
-
 def derive_relative(derive1, derive2):
     return derive1 - derive2

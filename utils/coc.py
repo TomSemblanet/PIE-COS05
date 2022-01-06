@@ -1,6 +1,6 @@
 import numpy as np
 
-from utilitaires.constants import mu_EARTH
+from utils.constants import mu_EARTH
 
 
 def kep2cart(coe, mu):
