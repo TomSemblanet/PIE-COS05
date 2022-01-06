@@ -8,6 +8,8 @@ Created on 13/12/2021
 import numpy as np
 import random as rd
 import matplotlib.pyplot as plt
+from time import sleep
+from tqdm import tqdm
 
 from regroupement.optimizer.energy_computation import energy_computation
 from regroupement.optimizer.Init_alea_G import Init_alea_G
@@ -41,7 +43,7 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 	'''
 
 	E_evol = np.zeros(t_iter) 	# Evolution of Energy along Markov chain
-	freqs = np.zeros(n_classes)
+	freqs = np.zeros(10*n_classes)
 
 	# Initializing Temperature
 	T = Ti
@@ -57,13 +59,18 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 
 	count = 1
 
-	print('\n #########')
+	print('\n#########')
 	print('ITERATION')
 	print('#########\n')
 
-	while T > Tf:
+	print('\n')
 
-		print(count, '/', r)
+	while T > Tf:
+	# for t in tqdm(range(np.int(r))):
+
+		# sleep(3)
+
+		print(count, '/', np.int(r))
 
 		for i in range(n_iter):
 
@@ -92,7 +99,7 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 			if i == n_iter-1 :
 				E_evol_global[k*(count-1):k*count] = E_evol[t_iter-k-1:-1]
 
-			frequency, bins = np.histogram(E_evol, bins = n_classes, range = (0,n_classes))
+			frequency, bins = np.histogram(E_evol, bins = 10*n_classes, range = (0,n_classes))
 			freqs += frequency
 
 
@@ -100,7 +107,7 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 		count += 1
 
 	# Plotting the histogram
-	x_hist = np.arange(n_classes)
+	x_hist = np.linspace(0,n_classes, 10*n_classes)
 	plt.plot(x_hist, freqs)
 	plt.title('Frequency of Energies')
 	plt.xlabel('Energy')

@@ -54,7 +54,8 @@ def INC_dV(i1, i2, V1):
                             Required delta-V [km/s]
     """
 
-    dV = 2 * V1 * np.sin((i2 - i1) / 2)
+    delta_i = np.abs(i2 - i1)
+    dV = 2 * V1 * np.sin(delta_i / 2)
 
     return dV
 
@@ -84,6 +85,6 @@ def AOP_dV(w1, w2, RAAN, a, e, i, m):
     """
 
     delta_w = np.abs(w2 - w1)
-    dV = 2 * np.sqrt(mu_EARTH / a / (1 - e**2)) * np.sin(delta_w/2)
+    dV = 2 * e * np.sqrt(mu_EARTH / (a*(1 - e**2))) * np.sin(delta_w/2)
 
     return dV

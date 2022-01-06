@@ -7,7 +7,7 @@ Created on 09/12/2021
 
 import numpy as np
 
-def energy_computation(G, DV):
+def energy_computation(G, DV, detail = False):
 	''' Function used to compute the energy associated to a state
 
 	Arguments:
@@ -16,6 +16,7 @@ def energy_computation(G, DV):
 
 	Returns: 
 		E (float): Energy associated to the state G
+		E_transfers (array) - optionnal : Energy asociated to each individual group
 
 	'''
 
@@ -33,6 +34,7 @@ def energy_computation(G, DV):
 	count = 0
 
 	for i in range(nb_grp):
+
 		e = 0	# Energy associated to a group of debris
 		actual_debris = debris_label[count]
 
@@ -53,4 +55,7 @@ def energy_computation(G, DV):
 
 	E = sum(E_transfers)
 
-	return E
+	if detail == False :
+		return E
+	else:
+		return E, E_transfers

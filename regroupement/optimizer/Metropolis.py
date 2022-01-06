@@ -22,7 +22,7 @@ def Metropolis(G_in, E_in, DV,T):
 		T (float) : Temperature related to the dynamic of Metropolis
 
 	Returns:
-		G_out (matrix): Output state of the dynamic of Metropolis 
+		G_out (Matrix): Output state of the dynamic of Metropolis 
 		E_out (float): Energy associated to the new state G_out
 
 	'''
@@ -30,6 +30,10 @@ def Metropolis(G_in, E_in, DV,T):
 	nb_debris = np.size(G_in,0)
 	nb_grp = np.size(G_in,1)
 	G = np.copy(G_in)
+
+	# # Max and min sizes of groups
+	s_M = 5
+	s_m = 4
 
 	# print(G)
 
@@ -55,13 +59,29 @@ def Metropolis(G_in, E_in, DV,T):
 	debris_1 = debris_labels_1[0][idx1]
 	debris_2 = debris_labels_2[0][idx2]
 
-	# Switching the two debris
-	G[debris_1,grp1] = 0
-	G[debris_2,grp1] = 1
+	# Defining the neighbour
+	case = rd.randint(0,1)
 
-	G[debris_2,grp2] = 0
-	G[debris_1,grp2] = 1
+	if case == 0:
+		# We move one debris from a group to another, with following constraints :
+		# Min number of debris in a group : 4
+		# Max number of debris in a group : 6
+		if (nb_debris_1 > s_m)*(nb_debris_2 < s_M) :
+			G[debris_1,grp1] = 0
+			G[debris_1,grp2] = 1
+		elif (nb_debris_2 > s_m)*(nb_debris_1 < s_M) :
+			G[debris_2,grp2] = 0
+			G[debris_2,grp1] = 1
+		else :
+			case = 1
 
+	if case == 1:
+		# Switching the two debris
+		G[debris_1,grp1] = 0
+		G[debris_2,grp1] = 1
+
+		G[debris_2,grp2] = 0
+		G[debris_1,grp2] = 1
 
 	######################
 	# ENERGY COMPUTATION #
