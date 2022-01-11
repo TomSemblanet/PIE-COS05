@@ -2,6 +2,7 @@
 
 import numpy as np
 from numpy import linalg as LA
+import utilitaires
 from utilitaires.coc import kep2cart
 
 
