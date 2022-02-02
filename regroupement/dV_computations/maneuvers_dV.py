@@ -88,3 +88,6 @@ def AOP_dV(w1, w2, RAAN, a, e, i, m):
     dV = 2 * e * np.sqrt(mu_EARTH / (a*(1 - e**2))) * np.sin(delta_w/2)
 
     return dV
+
+
+

@@ -35,7 +35,7 @@ def Gibbs(nb_debris, card_grp, DV, T, n_classes, t_iter, n_iter):
 	'''
 
 	E_evol = np.zeros(t_iter) 	# Evolution of Energy along Markov chain
-	freqs = np.zeros(n_classes)
+	freqs = np.zeros(10*n_classes)
 
 	for i in range(n_iter):
 
@@ -60,12 +60,12 @@ def Gibbs(nb_debris, card_grp, DV, T, n_classes, t_iter, n_iter):
 			E_evol[t] = E_out
 
 		# frequency, bins, patches = plt.hist(E_evol, bins = n_classes, range= (0,n_classes))
-		frequency, bins = np.histogram(E_evol, bins = n_classes, range = (0,n_classes))
+		frequency, bins = np.histogram(E_evol, bins = 10*n_classes, range = (0,n_classes))
 		freqs += frequency
 	
 	# Plotting the histogram	
 	plt.figure
-	x_hist = np.arange(n_classes)
+	x_hist = np.linspace(0,n_classes, 10*n_classes)
 	plt.plot(x_hist,freqs)
 	plt.title('Gibbs Distribution for T = %f' %T)
 	plt.xlabel('Energy')

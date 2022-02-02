@@ -15,7 +15,7 @@ from regroupement.optimizer.energy_computation import energy_computation
 from regroupement.optimizer.Init_alea_G import Init_alea_G
 from regroupement.optimizer.Metropolis import Metropolis
 
-def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
+def Recuit(nb_debris, s_min, s_max, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 	''' Function computing the simulated annealing, with the corresponding dynamic of Metropolis.
 		It corresponds to the succession of Markov chains computed with decreasing temperatures. At the end
 		we obtain a state G_out that minimizes the energy we defined, that is to say the sum of the delta_v
@@ -25,7 +25,8 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 
 	Arguments:
 		nb_debris (int) : Nulber of debris in the given catalogue
-		card_group (int): Cardinal of a group generated from this debris
+		s_min (int) : Minimum number of debris contained in a group
+		s_max (int) : Maximum number of debris contained in a group
 		DV (Matrix) : Matrix containing the delta_v associated to each maneuver
 		Ti (float) : Initial temperature related to the dynamic of Metropolis
 		Tf (float) : Final temperature related to the dynamic of Metropolis
@@ -76,14 +77,14 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 
 			if T == Ti:
 				# Initialization of a random state 
-				G_out,E_out = Init_alea_G(nb_debris, card_grp, DV)
+				G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV)
 				E_evol[0] = E_out
 
 			# Transitory Markov Chain to reach a minimum
 			for t in range(1,t_iter):
 				G_in = G_out
 				E_in = E_out
-				G_out, E_out = Metropolis(G_in, E_in, DV,T)
+				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV,T)
 				E_evol[t] = E_out
 
 			# Beginning of the recorded trajectory
@@ -92,7 +93,7 @@ def Recuit(nb_debris, card_grp, DV, Ti, Tf, alpha, n_classes, t_iter, n_iter):
 			for t in range(1,t_iter):
 				G_in = G_out
 				E_in = E_out
-				G_out, E_out = Metropolis(G_in, E_in, DV,T)
+				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV,T)
 				E_evol[t] = E_out
 			
 			# Getting the last portion of the chain for this T (for the plot)

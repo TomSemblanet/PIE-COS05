@@ -10,7 +10,76 @@ import random as rd
 from regroupement.optimizer.energy_computation import energy_computation
 from regroupement.optimizer.Init_alea_G import Init_alea_G
 
-def Metropolis(G_in, E_in, DV,T):
+def select_random_debris(G, grps, card_grps):
+	''' Function selecting randomly one debris in each group in grps (used to compute neighbours)
+
+	Arguments:
+		G (Matrix) : Current state  i.e. current regroupments of debris
+		grps (1d-array) : Array containing the groups (of same size) indices
+		card_grps (int) : Number of debris contained in each group (the same for every group), typically s_max
+
+	Returns:
+		selected_debris (1d-array) : Array containing the indices of the selected debris in each group //
+									(same order as groups)  
+
+	'''
+
+	nb_grp = len(grps)
+	nb_debris = np.size(G,0)
+
+	selected_debris = []
+
+	for i in range(nb_grp):
+		nonzero_idx = np.nonzero(G[:,grps[i]])[0]
+		debris_idx = rd.sample(list(nonzero_idx),1)[0]
+
+		selected_debris.append(debris_idx)
+
+	return selected_debris
+
+def split_and_fill(G, grps, grp_idx):
+	''' Function selecting randomly a group to split and groups to be filled (used to compute neighbours)
+
+	Arguments:
+		G (Matrix) : Current state  i.e. current regroupements of debris
+		grps (1d-array) : Array containing the groups (of same size) indices
+		grp_idx (1d_array) : indices of the group that can be filled (with cardinal < s_max)
+
+	Returns:
+		G (Matrix) : Current state  i.e. current regroupements of debris after distribution
+
+	'''
+
+	nb_grp = np.size(G,1)
+
+	# We select a group to split 
+	if (len(grp_idx) == nb_grp):
+		# Any group will do
+		grp_to_split = rd.randint(0,nb_grp-1)
+		grps = np.delete(grps, grp_to_split)
+		grp_idx = np.setdiff1d(grp_idx, grp_to_split)
+
+	else:
+		# We take a group outside grp_idx
+		other_groups = np.setdiff1d(grps, grp_idx)
+		grp_to_split = rd.sample(list(other_groups), 1)[0]
+		grps = np.delete(grps, grp_to_split)
+
+	# We gather the debris inside the group to split
+	debris = np.nonzero(G[:,grp_to_split])[0]
+	card_grp = len(debris)
+
+	# We put it into different groups
+	grps_to_fill = rd.sample(list(grp_idx), card_grp)
+	G[debris, grps_to_fill] = 1
+
+	# We remove the split group from the state
+	G = np.delete(G, grp_to_split, axis = 1)
+
+	return G
+
+
+def Metropolis(G_in, E_in, s_min, s_max, DV, T):
 	''' Function computing the dynamic of Metropolis. A neighbour of a state G is defined
 		as a switch of two debris between two groups selected randomly. then it is kept or
 		abandonned according to the Metropolis dynamic.
@@ -18,6 +87,8 @@ def Metropolis(G_in, E_in, DV,T):
 	Arguments:
 		G_in (Matrix): Current state  i.e. current regroupments of debris
 		E_in (float): Energy associated to the current state G_in
+		s_min (int) : Minimum number of debris contained in a group
+		s_max (int) : Maximum number of debris contained in a group
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
 		T (float) : Temperature related to the dynamic of Metropolis
 
@@ -31,14 +102,62 @@ def Metropolis(G_in, E_in, DV,T):
 	nb_grp = np.size(G_in,1)
 	G = np.copy(G_in)
 
-	# Max and min sizes of groups
-	s_M = 5
-	s_m = 4
-
 	#########################
 	# NEIGHBOUR COMPUTATION #
 	#########################
 
+	# Defining the neighbour
+	if s_min == s_max:
+		# Some types of neigbours can not be computed in this case
+		case = rd.randint(2,5)
+	else:
+		case = rd.randint(0,5)
+
+	##############################################################################################
+	if case == 0:
+		# Rare type of neighbour : we take one debris in s_min different groups of size s_max
+		# Then we build a new group of size s_min with them
+
+		# First we get the index of the groups with a cardinal = s_max
+		card_grps = sum(G)
+		grp_idx = np.where(card_grps == s_max)[0]
+
+		if (len(grp_idx) < s_min):
+			# We can't create this neighbour, we create another one
+			case = rd.randint(2,5)
+		else:
+			chosen_grps = rd.sample(list(grp_idx), s_min)	
+
+			# Now we choose one debris in each group
+			selected_debris = select_random_debris(G, chosen_grps, s_max)
+
+			# Then we create a new group containing them
+			G[selected_debris, chosen_grps] = 0
+
+			new_group = np.zeros((nb_debris,1))
+			new_group[selected_debris] = 1
+
+			G = np.hstack((G,new_group))
+
+
+	##############################################################################################
+	if case == 1:
+		# Rare type of neighbour : we take a random group and split it into other groups
+
+		# First we get the index of the groups with a cardinal < s_max (groups that can be filled)
+		grps = [i for i in range(nb_grp)]
+		card_grps = sum(G)
+		grp_idx = np.where(card_grps < s_max)[0]
+
+		if (len(grp_idx) < s_max) or (nb_grp <= s_max):
+			# We can't always create this neighbour, we create another one
+			case = case = rd.randint(2,5)
+		else:
+			
+			G = split_and_fill(G, grps, grp_idx)
+
+	##############################################################################################
+	# Preparation for the last cases
 	# Selecting two groups randomly
 	groups = rd.sample(range(nb_grp), 2)
 	grp1 = groups[0]
@@ -57,29 +176,30 @@ def Metropolis(G_in, E_in, DV,T):
 	debris_1 = debris_labels_1[0][idx1]
 	debris_2 = debris_labels_2[0][idx2]
 
-	# Defining the neighbour
-	case = rd.randint(0,1)
-
-	if case == 0:
+	##############################################################################################
+	if case == 2 or case == 3:
 		# We move one debris from a group to another, with following constraints :
-		# Min number of debris in a group : 4
-		# Max number of debris in a group : 6
-		if (nb_debris_1 > s_m)*(nb_debris_2 < s_M) :
+		# Min number of debris in a group : s_min
+		# Max number of debris in a group : s_max
+		if (nb_debris_1 > s_min)*(nb_debris_2 < s_max) :
 			G[debris_1,grp1] = 0
 			G[debris_1,grp2] = 1
-		elif (nb_debris_2 > s_m)*(nb_debris_1 < s_M) :
+		elif (nb_debris_2 > s_min)*(nb_debris_1 < s_max) :
 			G[debris_2,grp2] = 0
 			G[debris_2,grp1] = 1
 		else :
-			case = 1
+			# We switch for the always possible case
+			case = 4
 
-	if case == 1:
+	##############################################################################################
+	if case == 4 or case == 5:
 		# Switching the two debris
 		G[debris_1,grp1] = 0
 		G[debris_2,grp1] = 1
 
 		G[debris_2,grp2] = 0
 		G[debris_1,grp2] = 1
+
 
 	######################
 	# ENERGY COMPUTATION #
@@ -104,6 +224,21 @@ def Metropolis(G_in, E_in, DV,T):
 
 
 
+if __name__ == '__main__':
+	nb_debris = 6
+	s_min = 1
+	s_max = 2
+
+	DV = np.array([[0,2,1,3,4,2],[0,0,1,2,5,1],[0,0,0,3,1,5],[0,0,0,0,3,8],[0,0,0,0,0,2],[0,0,0,0,0,0]])
+
+	G_in,E_in = Init_alea_G(nb_debris,s_min,s_max,DV)
+
+	T = 1000 
+
+	G_out,E_out = Metropolis(G_in, E_in, s_min, s_max, DV, T)
+
+	print(G_in)
+	print(G_out)
 
 
 
