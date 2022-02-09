@@ -33,24 +33,27 @@ def compute_dt(a1,a2,i1,i2,RAAN1, RAAN2, print_result=False):
                             Final Right ascension of the ascending node [rad]
             output : 
             ------
-                    - dt : float
-                            Required delta_t [s]
+                    - dt_days : float
+                            Required delta_t [days]
     """
-    if ((RAAN1>RAAN2) and (constants.J2*(constants.R_EARTH**2)*((np.sqrt(constants.mu_EARTH/(a1**3))*np.cos(i1)/(a1**2))-(np.sqrt(constants.mu_EARTH/(a2**3))*np.cos(i2)/(a2**2))))>0 ):
-        dt=-(2/3)*(RAAN1-RAAN2-2*np.pi)/(constants.J2*(constants.R_EARTH**2)*((np.sqrt(constants.mu_EARTH/(a1**3))*np.cos(i1)/(a1**2))-(np.sqrt(constants.mu_EARTH/(a2**3))*np.cos(i2)/(a2**2))))
+    if ((RAAN1>RAAN2) and ((np.sqrt(constants.mu_EARTH/(a1**3))*np.cos(i1)/(a1**2))-(np.sqrt(constants.mu_EARTH/(a2**3))*np.cos(i2)/(a2**2))))<0 :
+        dt=-(2/3)*(RAAN1-RAAN2-2*np.pi)/(constants.J2*(constants.R_EARTH**2)*((np.sqrt(constants.mu_EARTH/(a2**3))*np.cos(i2)/(a2**2))-(np.sqrt(constants.mu_EARTH/(a1**3))*np.cos(i1)/(a1**2))))
         if print_result == True:
-            print('DeltaT for RAAN1 = ', RAAN1, ' and RAAN2 = ', RAAN2, ' is ', dt/86400, ' days.')
-        return dt
-    elif ((RAAN2>RAAN1) and (constants.J2*(constants.R_EARTH**2)*((np.sqrt(constants.mu_EARTH/(a1**3))*np.cos(i1)/(a1**2))-(np.sqrt(constants.mu_EARTH/(a2**3))*np.cos(i2)/(a2**2))))<0): 
-        dt= -(2/3)*(RAAN1+2*np.pi-RAAN2)/(constants.J2*(constants.R_EARTH**2)*((np.sqrt(constants.mu_EARTH/(a1**3))*np.cos(i1)/(a1**2))-(np.sqrt(constants.mu_EARTH/(a2**3))*np.cos(i2)/(a2**2))))
+            print('1: DeltaT for RAAN1 = ', RAAN1, ' and RAAN2 = ', RAAN2, ' is ', dt/86400, ' days.')
+        
+    elif ((RAAN2>RAAN1) and ((np.sqrt(constants.mu_EARTH/(a1**3))*np.cos(i1)/(a1**2))-(np.sqrt(constants.mu_EARTH/(a2**3))*np.cos(i2)/(a2**2)))>0): 
+        dt= -(2/3)*(RAAN1+2*np.pi-RAAN2)/(constants.J2*(constants.R_EARTH**2)*((np.sqrt(constants.mu_EARTH/(a2**3))*np.cos(i2)/(a2**2))-(np.sqrt(constants.mu_EARTH/(a1**3))*np.cos(i1)/(a1**2))))
         if print_result == True:
-            print('DeltaT for RAAN1 = ', RAAN1, ' and RAAN2 = ', RAAN2, ' is ', dt/86400, ' days.')
-        return dt
+            print('2: DeltaT for RAAN1 = ', RAAN1, ' and RAAN2 = ', RAAN2, ' is ', dt/86400, ' days.')
+        
     else:
-        dt=-(2/3)*(RAAN1-RAAN2)/(constants.J2*(constants.R_EARTH**2)*((np.sqrt(constants.mu_EARTH/(a1**3))*np.cos(i1)/(a1**2))-(np.sqrt(constants.mu_EARTH/(a2**3))*np.cos(i2)/(a2**2))))
+        dt=-(2/3)*(RAAN1-RAAN2)/(constants.J2*(constants.R_EARTH**2)*((np.sqrt(constants.mu_EARTH/(a2**3))*np.cos(i2)/(a2**2))-(np.sqrt(constants.mu_EARTH/(a1**3))*np.cos(i1)/(a1**2))))
         if print_result == True:
-            print('DeltaT for RAAN1 = ', RAAN1, ' and RAAN2 = ', RAAN2, ' is ', dt/86400, ' days.')
-        return dt
+            print('3: DeltaT for RAAN1 = ', RAAN1, ' and RAAN2 = ', RAAN2, ' is ', dt/86400, ' days.')
+    
+    dt_days = dt/86400
+
+    return dt_days
 
 def compute_dt_matrix(debris_data):
 
@@ -64,7 +67,7 @@ def compute_dt_matrix(debris_data):
             output : 
             ------
                     - dt_matrix : array
-                            Matrix whose (i,j) indice represents the delta_t required to modify the RAAN of the orbit from the RAAN of the debris i to the RAAN of the debris j
+                            Matrix whose (i,j) indice represents the delta_t (in seconds) required to modify the RAAN of the orbit from the RAAN of the debris i to the RAAN of the debris j
 
     """
 	dt_matrix = np.zeros((constants.N_DEBRIS, constants.N_DEBRIS))

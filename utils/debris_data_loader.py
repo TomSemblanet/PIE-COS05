@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Nov 24 10:19:33 2021
+
 @author: g.pierre
 """
 ## pip install -U TLE-tools
@@ -10,33 +11,57 @@ Created on Wed Nov 24 10:19:33 2021
 from tletools import TLE
 import numpy as np
 import pandas as pd
-
+import spacetrack
+from utils import constants
+from spacetrack import SpaceTrackClient
 
 def recoveringDebrisData(*args):
+    
+    """ Function which aims to recover data from orbiting objects from Space-Track.org 
+            inputs : 
+            ------
+                    - args : list of int
+                             Norad IDs of objects of interest, default value is the list given in constant.py
+            outputs : 
+            ------
+                    - TLE_String  : string
+				    Concatenated TLEs (string) of each object
 
-    import spacetrack
-    from spacetrack import SpaceTrackClient
+    """
+    
     st = SpaceTrackClient('pierre.gaetan@outlook.com', 'zywraj-Tadky0-fezgek')
     if len(args)!=0:
         TLE_String=st.tle_latest(norad_cat_id=[args], ordinal=1, format='tle')                   
     else:
-        TLE_String=st.tle_latest(norad_cat_id=[27001, 27601, 15334, 10732, 24279, 21090, 15772, 10693, 27387, 7594, 23180, 10138, 13917, 13719, 14625, 12092, 9044, 12504, 16292 ], ordinal=1, format='tle')           
+        TLE_String=st.tle_latest(norad_cat_id=constants.NORAD_ID_DEBRIS, ordinal=1, format='tle')           
     return TLE_String
 
 def convertTLEtoDF(TLE_String):
     
+    """ Function which aims to convert data in TLE format towards pandas dataframe (for our set of debris) 
+            inputs : 
+            ------
+                    - TLE_String  : string
+				    Concatenated TLEs (string) of each object
+
+            outputs : 
+            ------
+		    - TLE_DF  : pandas dataframe
+				DataFrame containing orbital parameters, time and mass for each debris
+
+
+    """
+    
     columns=[ 'a (km)', 'e', 'i (rad)', 'RAAN (rad)', 'Argument of periapsis (rad)', 'Mean anomaly (rad)', 'Date (year)', 'Date (fraction of year)', 'Mass (kg)']
-    index=[27001, 27601, 15334, 10732, 24279, 21090, 15772, 10693, 27387, 7594, 23180, 10138, 13917, 13719, 14625, 12092, 9044, 12504, 16292 ]
+    index=constants.NORAD_ID_DEBRIS
     TLE_DF=pd.DataFrame(index=index, columns=columns);
-    mu=398600.4418
-    mass=[2500,3000, 2440, 1435, 2700, 1435, 2440, 1435, 2575, 1435, 1435, 1435, 1435, 1100, 1435, 1435, 1435, 800, 1435]
-    TLE_String=recoveringDebrisData()
+    mass=constants.MASSES_DEBRIS
     tle_lines = TLE_String.strip().splitlines()
     Current_TLE_String=[]
     for i in range(int(len(tle_lines)/2)):
         Current_TLE_String=[' \n', tle_lines[2*i], tle_lines[2*i+1]]
         tle = TLE.from_lines(*Current_TLE_String)
-        TLE_DF.at[index[i], 'a (km)']= (mu/(((2*np.pi/86400)*tle.n)**2))**(1/3)
+        TLE_DF.at[index[i], 'a (km)']= (constants.mu_EARTH/(((2*np.pi/86400)*tle.n)**2))**(1/3)
         TLE_DF.at[index[i], 'e']= tle.ecc
         TLE_DF.at[index[i], 'i (rad)']= np.radians(tle.inc)
         TLE_DF.at[index[i], 'RAAN (rad)']= np.radians(tle.raan)

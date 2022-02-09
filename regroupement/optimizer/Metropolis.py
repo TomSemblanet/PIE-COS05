@@ -79,7 +79,7 @@ def split_and_fill(G, grps, grp_idx):
 	return G
 
 
-def Metropolis(G_in, E_in, s_min, s_max, DV, T):
+def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T):
 	''' Function computing the dynamic of Metropolis. A neighbour of a state G is defined
 		as a switch of two debris between two groups selected randomly. then it is kept or
 		abandonned according to the Metropolis dynamic.
@@ -90,6 +90,7 @@ def Metropolis(G_in, E_in, s_min, s_max, DV, T):
 		s_min (int) : Minimum number of debris contained in a group
 		s_max (int) : Maximum number of debris contained in a group
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
+		DT (Matrix): Matrix containing the elapsed time associated to each "J2 perturbation duration" between two debris
 		T (float) : Temperature related to the dynamic of Metropolis
 
 	Returns:
@@ -205,7 +206,7 @@ def Metropolis(G_in, E_in, s_min, s_max, DV, T):
 	# ENERGY COMPUTATION #
 	######################
 
-	E = energy_computation(G,DV)
+	E = energy_computation(G,DV,DT)
 
 	###################
 	# STATE SELECTION #
@@ -231,14 +232,14 @@ if __name__ == '__main__':
 
 	DV = np.array([[0,2,1,3,4,2],[0,0,1,2,5,1],[0,0,0,3,1,5],[0,0,0,0,3,8],[0,0,0,0,0,2],[0,0,0,0,0,0]])
 
-	G_in,E_in = Init_alea_G(nb_debris,s_min,s_max,DV)
+	G_in,E_in = Init_alea_G(nb_debris,s_min,s_max,DV,DT)
 
 	T = 1000 
 
-	G_out,E_out = Metropolis(G_in, E_in, s_min, s_max, DV, T)
+	# G_out,E_out = Metropolis(G_in, E_in, s_min, s_max, DV, T)
 
-	print(G_in)
-	print(G_out)
+	# print(G_in)
+	# print(G_out)
 
 
 

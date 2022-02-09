@@ -9,7 +9,7 @@ import numpy as np
 import random as rd
 from regroupement.optimizer.energy_computation import energy_computation
 
-def Init_alea_G(nb_debris, s_min, s_max, DV):
+def Init_alea_G(nb_debris, s_min, s_max, DV, DT):
 	''' Function used to initiate the optimization
 
 	Arguments:
@@ -17,6 +17,7 @@ def Init_alea_G(nb_debris, s_min, s_max, DV):
 		s_min (int) : Minimum number of debris contained in a group
 		s_max (int) : Maximum number of debris contained in a group
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
+		DT (Matrix): Matrix containing the elapsed time associated to each "J2 perturbation duration" between two debris
 
 	Returns:
 		G (matrix): First state generated randomly to begin Optimization 
@@ -61,7 +62,7 @@ def Init_alea_G(nb_debris, s_min, s_max, DV):
 	#           Computation of the Energy           #
 	#################################################
 
-	E = energy_computation(G,DV)
+	E = energy_computation(G,DV,DT)
 
 	#################################################
 
@@ -74,13 +75,13 @@ if __name__ == "__main__":
 	s_min = 4
 	s_max = 5
 
-	DV = np.array([[0,2,1,3,4,2],[0,0,1,2,5,1],[0,0,0,3,1,5],[0,0,0,0,3,8],[0,0,0,0,0,2],[0,0,0,0,0,0]])
+	# DV = np.array([[0,2,1,3,4,2],[0,0,1,2,5,1],[0,0,0,3,1,5],[0,0,0,0,3,8],[0,0,0,0,0,2],[0,0,0,0,0,0]])
 
-	G,E = Init_alea_G(nb_debris,s_min,s_max,DV)
+	# G,E = Init_alea_G(nb_debris,s_min,s_max,DV)
 
-	print(sum(G))
-	print(G)
-	print(E)
+	# print(sum(G))
+	# print(G)
+	# print(E)
 
 	# For unitary tests, check that sum(sum(G)) = nb_debris and sum(G) = [card_grp, card_grp, card_grp, ... , card_grp - nb_debris%card_grp]
 
