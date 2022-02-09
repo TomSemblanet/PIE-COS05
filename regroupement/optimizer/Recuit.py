@@ -80,6 +80,7 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 				# Initialization of a random state 
 				G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT)
 				E_evol[0] = E_out
+				E_max_plot = E_out
 
 			# Transitory Markov Chain to reach a minimum
 			for t in range(1,t_iter):
@@ -109,7 +110,7 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 		count += 1
 
 	# Plotting the histogram
-	x_hist = np.linspace(0,n_classes, 10*n_classes)
+	x_hist = np.linspace(0,E_max_plot, 10*n_classes)
 	plt.plot(x_hist, freqs)
 	plt.title('Frequency of Energies')
 	plt.xlabel('Energy')
