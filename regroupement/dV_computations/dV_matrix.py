@@ -2,11 +2,14 @@ import numpy as np
 
 from utils import debris_data_loader as DDL
 from utils.constants import mu_EARTH
-
+from utils import constants
+from matplotlib import rc
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 from regroupement.dV_computations.maneuvers_dV import SMA_dV, INC_dV, AOP_dV
 
 
-def total_dV_computation(ordered_debris, k, l):
+def total_dV_computation(debris, k, l):
     """ 
     Function computing the delta_v value [km/s] between the orbits of the debris k and l.
 
@@ -27,8 +30,8 @@ def total_dV_computation(ordered_debris, k, l):
 
     else:
         # Extraction of the initial and final orbits orbital elements (+ mass)
-        a, e, i, omega, w, M, mass = ordered_debris.values[k][[0, 1, 2, 3, 4, 5, 8]]
-        a2, e2, i2, omega2, w2, M2, mass2 = ordered_debris.values[l][[0, 1, 2, 3, 4, 5, 8]]
+        a, e, i, omega, w, M, mass = debris.values[k][[0, 1, 2, 3, 4, 5, 8]]
+        a2, e2, i2, omega2, w2, M2, mass2 = debris.values[l][[0, 1, 2, 3, 4, 5, 8]]
 
         # Inclination modification cost [m/s]
         V1 = np.sqrt(mu_EARTH/a)
@@ -39,7 +42,7 @@ def total_dV_computation(ordered_debris, k, l):
         dV_AOP = AOP_dV(w, w2, omega, a, e, i, mass)
         w = w2
 
-        # print("{} km/s".format(dV_AOP))
+        #print("{} km/s".format(dV_AOP))
 
         # SMA modification cost [m/s]
         dV_SMA = SMA_dV(a, a2)
@@ -61,16 +64,37 @@ def dV_matrix_generation(debris_data):
         dV_matrix (Matrix) : delta-V matrix (triangular superior) recording all possible values of delta_v for the given set of debris
     """
 
-    # Ordering debris according to decreasing RAAN
-    ordered_debris = debris_data.sort_values(by=["RAAN (rad)"], ascending=False)
 
-    dV_matrix = np.zeros((len(ordered_debris), len(ordered_debris)))
+    dV_matrix = np.zeros((len(debris_data), len(debris_data)))
 
-    for i in range(len(ordered_debris)):
-         for j in range(i+1, len(ordered_debris)):
-            dV_matrix[i][j] = total_dV_computation(ordered_debris, i, j)
+    for i in range(len(debris_data)):
+        dV_matrix[i][i]=0
+        for j in range(i+1, len(debris_data)):
+            dV=total_dV_computation(debris_data, i, j)
+            dV_matrix[i][j] = dV
+            dV_matrix[j][i] = dV
 
     return dV_matrix
+
+def print_dV_matrix(dV_matrix=dV_matrix_generation(DDL.convertTLEtoDF(DDL.recoveringDebrisData()))):
+    
+    # Setting the font
+
+    rc('font', **{'family':'serif','serif':['Palatino']})
+    rc('text', usetex=True)
+    dV_max=1.5
+    ticks=np.arange(1,constants.N_DEBRIS+1,2)
+    extent=(0.5,constants.N_DEBRIS+0.5,0.5,constants.N_DEBRIS+0.5)
+    cmap0 = LinearSegmentedColormap.from_list('', ['green', 'white'])
+    plt.imshow(dV_matrix,vmin=0, vmax=dV_max,interpolation='nearest',extent=extent, origin='lower', cmap=cmap0)
+    plt.xlabel('Debris ID')
+    plt.ylabel('Debris ID')
+    plt.xticks(ticks)
+    plt.yticks(ticks)
+    colorbar=plt.colorbar()
+    colorbar.set_label('$ \Delta V $ [km/s]')
+
+    plt.show()
 
 if __name__ == '__main__':
     
@@ -79,3 +103,4 @@ if __name__ == '__main__':
     
     # Computation of the delta-V matrix 
     dV_matrix = dV_matrix_generation(debris_data)
+    print_dV_matrix()

@@ -32,15 +32,10 @@ def energy_computation_DV(G, DV, detail = False):
 
 		nb_debris = len(debris)
 
-		dV_temp = 0
 		for l in range(nb_debris-1):
-			dv = DV[debris[l],debris[l+1]]
-			dV_temp += dv
-		
-		dV_transfers.append(dV_temp)
-		dV += dV_temp
-
-	dV_transfers = np.array(dV_transfers)
+			dV = DV[debris[l],debris[l+1]]
+			dV_transfers.append(dV)
+			dV += dV
 
 	if detail:
 		return dV, dV_transfers
@@ -72,15 +67,10 @@ def energy_computation_DT(G, DT, detail = False):
 
 		nb_debris = len(debris)
 
-		dT_temp = 0
 		for l in range(nb_debris-1):
-			dt = DT[debris[l],debris[l+1]]
-			dT_temp += dt
-
-		dT += dT_temp
-		dT_transfers.append(dT_temp)
-
-	dT_transfers = np.array(dT_transfers)
+			dT = DT[debris[l],debris[l+1]]
+			dT_transfers.append(dT)
+			dT += dT
 
 	if detail:
 		return dT, dT_transfers
