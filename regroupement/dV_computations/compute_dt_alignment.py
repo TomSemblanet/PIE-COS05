@@ -117,7 +117,7 @@ if __name__ == "__main__":
     ticks=np.arange(1,constants.N_DEBRIS+1,2)
     extent=(0.5,constants.N_DEBRIS+0.5,0.5,constants.N_DEBRIS+0.5)
     cmap0 = LinearSegmentedColormap.from_list('', ['darkblue', 'white'])
-    plt.imshow(dt_matrix/86400,vmin=0, vmax=dt_max,interpolation='nearest',extent=extent, origin='lower', cmap=cmap0)
+    plt.imshow(dt_matrix,vmin=0, vmax=dt_max,interpolation='nearest',extent=extent, origin='lower', cmap=cmap0)
     plt.xlabel('Debris ID')
     plt.ylabel('Debris ID')
     plt.xticks(ticks)

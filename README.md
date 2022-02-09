@@ -50,11 +50,23 @@ From here, run the following command on the terminal :
 git clone https://github.com/TomSemblanet/PIE-COS05.git
 ```
 
-This will create a folder name DRT containing python codes. Debris Removal Tool in now ready to use !
+This will create a folder name DRT containing python codes. Now, step into the folder :
+
+```bash
+cd DRT
+```
+
+The last step in now to download the dependencies needed to run DRT, which can be done by running the following command :
+
+```bash
+pip install -r requirements.txt
+```
+
+Debris Removal Tool in now ready to use !
 
 ## 3. How to use Debris Removal Tool
 
-In order to use DRT, you need to step into the folder : 
+Make sure that you are into the DRT folder : 
 
 ```bash
 cd DRT
