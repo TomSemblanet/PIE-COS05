@@ -5,17 +5,14 @@ from utils.constants import mu_EARTH
 
 def kep2cart(coe, mu):
     """ Converts coordinates of a body from orbital elements (coe) into cartesian coordinates 
-            inputs : 
-            ------
-                    - coe : array
-                            Orbital elements of the body (SMA, ECC, INC, AOP, RAAN, TA)
-                    - mu : float
-                            Characteristic parameter of the central body 
-            outputs : 
-            -------
-                    - r : array
-                            Concatenation of the body's position and velocity (X, Y, Z, VX, VY, VZ) in 
-                            the geocentric frame
+    Arguments : 
+    
+        coe (array) : Orbital elements of the body (SMA, ECC, INC, AOP, RAAN, TA)
+
+        mu (float) : Characteristic parameter of the central body 
+
+    Returns : 
+        r (array) : Concatenation of the body's position and velocity (X, Y, Z, VX, VY, VZ) in the geocentric frame
     """
 
     a, e, i, w, RA, TA = coe
@@ -47,18 +44,17 @@ def kep2cart(coe, mu):
 
 def cart2kep(R, V, mu):
     """ Converts coordinates of a body from its cartesian coordinates into its orbitals elements (coe)
-            inputs : 
-            ------
-                    - R : array
-                            Position of the body in the ECI frame
-                    - V : array
-                            Velocity of the body in the ECI frame
-                    - mu : float
-                            Characteristic parameter of the central body 
-            outputs : 
-            -------
-                    - coe : array
-                            Body's orbital elements (SMA, ECC, INC, AOP, RAAN, TA)
+    
+    Arguments : 
+    
+        R (array) : Position of the body in the ECI frame
+
+        V (array) : Velocity of the body in the ECI frame
+
+        mu (float) : Characteristic parameter of the central body 
+
+    Returns : 
+        coe (array) : Body's orbital elements (SMA, ECC, INC, AOP, RAAN, TA)
     """
 
     r = np.linalg.norm(R)

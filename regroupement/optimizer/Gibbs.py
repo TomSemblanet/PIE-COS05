@@ -19,17 +19,25 @@ def Gibbs(nb_debris, card_grp, DV, T, n_classes, t_iter, n_iter):
 
 	Arguments:
 		nb_debris (int) : Nulber of debris in the given catalogue
+		
 		card_group (int): Cardinal of a group generated from this debris
+		
 		DV (Matrix) : Matrix containing the delta_v associated to each maneuver
+		
 		T (float) : Temperature related to the dynamic of Metropolis
+		
 		n_classes (array) : Number of classes for the displayed histogram (ex : range(100))
+		
 		t_iter (int) : Number of iterations for a Markov chain
+		
 		n_iter (int) : Number of Markov chains generated for each Temperature
 
 
 	Returns:
 		G_out (matrix) : Output state of the dynamic of Metropolis 
+		
 		E_out (float) : Energy associated to the new state G_out
+		
 		freqs (array) : Array containing the frequencies associated to each energy
 
 	'''

@@ -15,12 +15,13 @@ def select_random_debris(G, grps, card_grps):
 
 	Arguments:
 		G (Matrix) : Current state  i.e. current regroupments of debris
+
 		grps (1d-array) : Array containing the groups (of same size) indices
+
 		card_grps (int) : Number of debris contained in each group (the same for every group), typically s_max
 
 	Returns:
-		selected_debris (1d-array) : Array containing the indices of the selected debris in each group //
-									(same order as groups)  
+		selected_debris (1d-array) : Array containing the indices of the selected debris in each group (same order as groups)  
 
 	'''
 
@@ -42,7 +43,9 @@ def split_and_fill(G, grps, grp_idx):
 
 	Arguments:
 		G (Matrix) : Current state  i.e. current regroupements of debris
+
 		grps (1d-array) : Array containing the groups (of same size) indices
+
 		grp_idx (1d_array) : indices of the group that can be filled (with cardinal < s_max)
 
 	Returns:
@@ -80,21 +83,26 @@ def split_and_fill(G, grps, grp_idx):
 
 
 def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T):
-	''' Function computing the dynamic of Metropolis. A neighbour of a state G is defined
-		as a switch of two debris between two groups selected randomly. then it is kept or
-		abandonned according to the Metropolis dynamic.
+	''' Function computing the dynamic of Metropolis. 
 
 	Arguments:
 		G_in (Matrix): Current state  i.e. current regroupments of debris
+
 		E_in (float): Energy associated to the current state G_in
+
 		s_min (int) : Minimum number of debris contained in a group
+
 		s_max (int) : Maximum number of debris contained in a group
+
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
+
 		DT (Matrix): Matrix containing the elapsed time associated to each "J2 perturbation duration" between two debris
+
 		T (float) : Temperature related to the dynamic of Metropolis
 
 	Returns:
 		G_out (Matrix): Output state of the dynamic of Metropolis 
+
 		E_out (float): Energy associated to the new state G_out
 
 	'''

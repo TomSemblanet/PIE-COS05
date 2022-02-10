@@ -15,8 +15,11 @@ def total_dV_computation(debris, k, l):
 
     Arguments:
         ordered_debris (DataFrame): Data of the debris considered sorted by decreasing w
+        
         k (int) : label of the first debris
+        
         l (int) : label of the second debris
+        
 
     Returns:
         delta_V_tot (float) : delta_v corresponding to the transfer from orbit of debris k to orbit of debris l [km/s]

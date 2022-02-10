@@ -14,13 +14,18 @@ def Init_alea_G(nb_debris, s_min, s_max, DV, DT):
 
 	Arguments:
 		nb_debris (int): Number of debris in the given catalogue
+		
 		s_min (int) : Minimum number of debris contained in a group
+		
 		s_max (int) : Maximum number of debris contained in a group
+		
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
+		
 		DT (Matrix): Matrix containing the elapsed time associated to each "J2 perturbation duration" between two debris
 
 	Returns:
 		G (matrix): First state generated randomly to begin Optimization 
+		
 		E (float): Energy associated to the state G
 	'''
 

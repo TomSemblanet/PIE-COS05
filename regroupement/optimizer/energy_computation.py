@@ -12,12 +12,17 @@ def energy_computation_DV(G, DV, detail = False):
 
 	Arguments:
 		G (Matrix): Actual state for which we compute the energy
+		
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
+		
 		detail (bool) : False by default - If True, gives the detail of the delta v for each group
+		
 
 	Returns: 
 		dV (float): Global delta v associated to the state G
+		
 		dV_transfers (array) - optionnal : Global delta v associated to each individual group
+		
 
 	'''
 
@@ -48,15 +53,18 @@ def energy_computation_DV(G, DV, detail = False):
 		return dV
 
 def energy_computation_DT(G, DT, detail = False):
-	''' Function used to compute the delta v associated to a state
+	''' Function used to compute the delta t (J2) associated to a state
 
 	Arguments:
 		G (Matrix): Actual state for which we compute the energy
+		
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
+		
 		detail (bool) : False by default - If True, gives the detail of the delta v for each group
 
 	Returns: 
 		dV (float): Global delta v associated to the state G
+		
 		dV_transfers (array) - optionnal : Global delta v associated to each individual group
 
 	'''
@@ -93,14 +101,20 @@ def energy_computation(G, DV, DT, detail = False):
 
 	Arguments:
 		G (Matrix): Actual state for which we compute the energy
+		
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
+		
 		DT (Matrix): Matrix containing the elapsed time associated to each "J2 perturbation duration" between two debris
+		
 		detail (bool) : False by default - If True, gives the detail of the energy for each group
 
 	Returns: 
 		E (float): Energy associated to the state G
+		
 		E_transfers (array) - optionnal : Energy associated to each individual group
+		
 		E_transfers_dV (array) - optionnal : delta v associated to each individual group
+		
 		E_transfers_dt (array) - optionnal : elapsed time due to J2 perturbation associated to each individual group
 
 	'''
@@ -113,7 +127,7 @@ def energy_computation(G, DV, DT, detail = False):
 
 	# Weighting the two parts
 	max_tolerated_dV = 3.0 # [km/s]
-	max_tolerated_dt = 365 # [days]
+	max_tolerated_dt = 3*365 # [days]
 
 	weight_coef = max_tolerated_dV/max_tolerated_dt
 

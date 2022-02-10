@@ -1,0 +1,97 @@
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\let\spxpagem \sphinxstyleindexpagemain
+\let\spxentry \sphinxstyleindexentry
+\let\spxextra \sphinxstyleindexextra
+
+  \bigletter A
+  \item \spxentry{AOP\_dV()}\spxextra{in module regroupement.dV\_computations.maneuvers\_dV}, 
+		\hyperpage{4}
+
+  \indexspace
+  \bigletter C
+  \item \spxentry{cart2kep()}\spxextra{in module utils.coc}, \hyperpage{9}
+  \item \spxentry{compute\_dt()}\spxextra{in module regroupement.dV\_computations.compute\_dt\_alignment}, 
+		\hyperpage{3}
+  \item \spxentry{compute\_dt\_matrix()}\spxextra{in module regroupement.dV\_computations.compute\_dt\_alignment}, 
+		\hyperpage{3}
+  \item \spxentry{convertTLEtoDF()}\spxextra{in module utils.debris\_data\_loader}, \hyperpage{9}
+
+  \indexspace
+  \bigletter E
+  \item \spxentry{energy\_computation()}\spxextra{in module regroupement.optimizer.energy\_computation}, 
+		\hyperpage{6}
+  \item \spxentry{energy\_computation\_DT()}\spxextra{in module regroupement.optimizer.energy\_computation}, 
+		\hyperpage{6}
+  \item \spxentry{energy\_computation\_DV()}\spxextra{in module regroupement.optimizer.energy\_computation}, 
+		\hyperpage{6}
+
+  \indexspace
+  \bigletter I
+  \item \spxentry{INC\_dV()}\spxextra{in module regroupement.dV\_computations.maneuvers\_dV}, 
+		\hyperpage{4, 5}
+  \item \spxentry{Init\_alea\_G()}\spxextra{in module regroupement.optimizer.Init\_alea\_G}, 
+		\hyperpage{5}
+
+  \indexspace
+  \bigletter K
+  \item \spxentry{kep2cart()}\spxextra{in module utils.coc}, \hyperpage{9}
+
+  \indexspace
+  \bigletter M
+  \item \spxentry{Metropolis()}\spxextra{in module regroupement.optimizer.Metropolis}, 
+		\hyperpage{7}
+  \item \spxentry{module}
+    \subitem \spxentry{regroupement}, \hyperpage{3}
+    \subitem \spxentry{regroupement.dV\_computations.compute\_dt\_alignment}, \hyperpage{3}
+    \subitem \spxentry{regroupement.dV\_computations.maneuvers\_dV}, \hyperpage{3, 4}
+    \subitem \spxentry{regroupement.optimizer.energy\_computation}, \hyperpage{6}
+    \subitem \spxentry{regroupement.optimizer.Init\_alea\_G}, \hyperpage{5}
+    \subitem \spxentry{regroupement.optimizer.Metropolis}, \hyperpage{7}
+    \subitem \spxentry{regroupement.optimizer.Recuit}, \hyperpage{7}
+    \subitem \spxentry{utils.coc}, \hyperpage{9}
+    \subitem \spxentry{utils.constants}, \hyperpage{9}
+    \subitem \spxentry{utils.debris\_data\_loader}, \hyperpage{9}
+    \subitem \spxentry{utils.general\_calculus}, \hyperpage{10}
+
+  \indexspace
+  \bigletter R
+  \item \spxentry{recoveringDebrisData()}\spxextra{in module utils.debris\_data\_loader}, 
+		\hyperpage{9}
+  \item \spxentry{Recuit()}\spxextra{in module regroupement.optimizer.Recuit}, \hyperpage{7}
+  \item \spxentry{regroupement}
+    \subitem \spxentry{module}, \hyperpage{3}
+  \item \spxentry{regroupement.dV\_computations.compute\_dt\_alignment}
+    \subitem \spxentry{module}, \hyperpage{3}
+  \item \spxentry{regroupement.dV\_computations.maneuvers\_dV}
+    \subitem \spxentry{module}, \hyperpage{3, 4}
+  \item \spxentry{regroupement.optimizer.energy\_computation}
+    \subitem \spxentry{module}, \hyperpage{6}
+  \item \spxentry{regroupement.optimizer.Init\_alea\_G}
+    \subitem \spxentry{module}, \hyperpage{5}
+  \item \spxentry{regroupement.optimizer.Metropolis}
+    \subitem \spxentry{module}, \hyperpage{7}
+  \item \spxentry{regroupement.optimizer.Recuit}
+    \subitem \spxentry{module}, \hyperpage{7}
+
+  \indexspace
+  \bigletter S
+  \item \spxentry{select\_random\_debris()}\spxextra{in module regroupement.optimizer.Metropolis}, 
+		\hyperpage{7}
+  \item \spxentry{SMA\_dV()}\spxextra{in module regroupement.dV\_computations.maneuvers\_dV}, 
+		\hyperpage{4, 5}
+  \item \spxentry{split\_and\_fill()}\spxextra{in module regroupement.optimizer.Metropolis}, 
+		\hyperpage{7}
+
+  \indexspace
+  \bigletter U
+  \item \spxentry{utils.coc}
+    \subitem \spxentry{module}, \hyperpage{9}
+  \item \spxentry{utils.constants}
+    \subitem \spxentry{module}, \hyperpage{9}
+  \item \spxentry{utils.debris\_data\_loader}
+    \subitem \spxentry{module}, \hyperpage{9}
+  \item \spxentry{utils.general\_calculus}
+    \subitem \spxentry{module}, \hyperpage{10}
+
+\end{sphinxtheindex}

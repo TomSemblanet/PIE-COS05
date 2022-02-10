@@ -1,0 +1,401 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Optimizer &mdash; Debris Removal Tool Beta documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utils" href="../utils.html" />
+    <link rel="prev" title="dV_computations" href="dV_computations.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Debris Removal Tool
+          
+
+          
+            
+            <img src="../_static/Logo_Capgemini.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../regroupement.html">Regroupement</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dV_computations.html">dV_computations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Optimizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#initialization-of-the-first-state">Initialization of the first state</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#computation-of-the-energy-associated-to-a-state">Computation of the energy associated to a state</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#implementation-of-the-dynamic-of-metropolis">Implementation of the dynamic of Metropolis</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#simulated-annealing">Simulated Annealing</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Debris Removal Tool</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../regroupement.html">Regroupement</a> &raquo;</li>
+        
+      <li>Optimizer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/regroupement/optimizer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="optimizer">
+<h1>Optimizer<a class="headerlink" href="#optimizer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="initialization-of-the-first-state">
+<h2>Initialization of the first state<a class="headerlink" href="#initialization-of-the-first-state" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-regroupement.optimizer.Init_alea_G"></span><p>Created on 08/12/2021</p>
+<p>&#64;author: Yvan GARY</p>
+<dl class="py function">
+<dt id="regroupement.optimizer.Init_alea_G.Init_alea_G">
+<code class="sig-prename descclassname">regroupement.optimizer.Init_alea_G.</code><code class="sig-name descname">Init_alea_G</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nb_debris</span></em>, <em class="sig-param"><span class="n">s_min</span></em>, <em class="sig-param"><span class="n">s_max</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Init_alea_G.Init_alea_G" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to initiate the optimization</p>
+<dl>
+<dt>Arguments:</dt><dd><p>nb_debris (int): Number of debris in the given catalogue</p>
+<p>s_min (int) : Minimum number of debris contained in a group</p>
+<p>s_max (int) : Maximum number of debris contained in a group</p>
+<p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
+<p>DT (Matrix): Matrix containing the elapsed time associated to each “J2 perturbation duration” between two debris</p>
+</dd>
+<dt>Returns:</dt><dd><p>G (matrix): First state generated randomly to begin Optimization</p>
+<p>E (float): Energy associated to the state G</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="computation-of-the-energy-associated-to-a-state">
+<h2>Computation of the energy associated to a state<a class="headerlink" href="#computation-of-the-energy-associated-to-a-state" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-regroupement.optimizer.energy_computation"></span><p>Created on 09/12/2021</p>
+<p>&#64;author: Yvan GARY</p>
+<dl class="py function">
+<dt id="regroupement.optimizer.energy_computation.energy_computation">
+<code class="sig-prename descclassname">regroupement.optimizer.energy_computation.</code><code class="sig-name descname">energy_computation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">detail</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.energy_computation.energy_computation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to compute the energy associated to a state</p>
+<dl>
+<dt>Arguments:</dt><dd><p>G (Matrix): Actual state for which we compute the energy</p>
+<p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
+<p>DT (Matrix): Matrix containing the elapsed time associated to each “J2 perturbation duration” between two debris</p>
+<p>detail (bool) : False by default - If True, gives the detail of the energy for each group</p>
+</dd>
+<dt>Returns: </dt><dd><p>E (float): Energy associated to the state G</p>
+<p>E_transfers (array) - optionnal : Energy associated to each individual group</p>
+<p>E_transfers_dV (array) - optionnal : delta v associated to each individual group</p>
+<p>E_transfers_dt (array) - optionnal : elapsed time due to J2 perturbation associated to each individual group</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="regroupement.optimizer.energy_computation.energy_computation_DT">
+<code class="sig-prename descclassname">regroupement.optimizer.energy_computation.</code><code class="sig-name descname">energy_computation_DT</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">detail</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.energy_computation.energy_computation_DT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to compute the delta t (J2) associated to a state</p>
+<dl>
+<dt>Arguments:</dt><dd><p>G (Matrix): Actual state for which we compute the energy</p>
+<p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
+<p>detail (bool) : False by default - If True, gives the detail of the delta v for each group</p>
+</dd>
+<dt>Returns: </dt><dd><p>dV (float): Global delta v associated to the state G</p>
+<p>dV_transfers (array) - optionnal : Global delta v associated to each individual group</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="regroupement.optimizer.energy_computation.energy_computation_DV">
+<code class="sig-prename descclassname">regroupement.optimizer.energy_computation.</code><code class="sig-name descname">energy_computation_DV</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">detail</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.energy_computation.energy_computation_DV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to compute the delta v associated to a state</p>
+<dl>
+<dt>Arguments:</dt><dd><p>G (Matrix): Actual state for which we compute the energy</p>
+<p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
+<p>detail (bool) : False by default - If True, gives the detail of the delta v for each group</p>
+</dd>
+<dt>Returns: </dt><dd><p>dV (float): Global delta v associated to the state G</p>
+<p>dV_transfers (array) - optionnal : Global delta v associated to each individual group</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="implementation-of-the-dynamic-of-metropolis">
+<h2>Implementation of the dynamic of Metropolis<a class="headerlink" href="#implementation-of-the-dynamic-of-metropolis" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-regroupement.optimizer.Metropolis"></span><p>Created on 08/12/2021</p>
+<p>&#64;author: Yvan GARY</p>
+<dl class="py function">
+<dt id="regroupement.optimizer.Metropolis.Metropolis">
+<code class="sig-prename descclassname">regroupement.optimizer.Metropolis.</code><code class="sig-name descname">Metropolis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G_in</span></em>, <em class="sig-param"><span class="n">E_in</span></em>, <em class="sig-param"><span class="n">s_min</span></em>, <em class="sig-param"><span class="n">s_max</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">T</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Metropolis.Metropolis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function computing the dynamic of Metropolis.</p>
+<dl>
+<dt>Arguments:</dt><dd><p>G_in (Matrix): Current state  i.e. current regroupments of debris</p>
+<p>E_in (float): Energy associated to the current state G_in</p>
+<p>s_min (int) : Minimum number of debris contained in a group</p>
+<p>s_max (int) : Maximum number of debris contained in a group</p>
+<p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
+<p>DT (Matrix): Matrix containing the elapsed time associated to each “J2 perturbation duration” between two debris</p>
+<p>T (float) : Temperature related to the dynamic of Metropolis</p>
+</dd>
+<dt>Returns:</dt><dd><p>G_out (Matrix): Output state of the dynamic of Metropolis</p>
+<p>E_out (float): Energy associated to the new state G_out</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="regroupement.optimizer.Metropolis.select_random_debris">
+<code class="sig-prename descclassname">regroupement.optimizer.Metropolis.</code><code class="sig-name descname">select_random_debris</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em>, <em class="sig-param"><span class="n">grps</span></em>, <em class="sig-param"><span class="n">card_grps</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Metropolis.select_random_debris" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function selecting randomly one debris in each group in grps (used to compute neighbours)</p>
+<dl>
+<dt>Arguments:</dt><dd><p>G (Matrix) : Current state  i.e. current regroupments of debris</p>
+<p>grps (1d-array) : Array containing the groups (of same size) indices</p>
+<p>card_grps (int) : Number of debris contained in each group (the same for every group), typically s_max</p>
+</dd>
+<dt>Returns:</dt><dd><p>selected_debris (1d-array) : Array containing the indices of the selected debris in each group (same order as groups)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="regroupement.optimizer.Metropolis.split_and_fill">
+<code class="sig-prename descclassname">regroupement.optimizer.Metropolis.</code><code class="sig-name descname">split_and_fill</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em>, <em class="sig-param"><span class="n">grps</span></em>, <em class="sig-param"><span class="n">grp_idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Metropolis.split_and_fill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function selecting randomly a group to split and groups to be filled (used to compute neighbours)</p>
+<dl>
+<dt>Arguments:</dt><dd><p>G (Matrix) : Current state  i.e. current regroupements of debris</p>
+<p>grps (1d-array) : Array containing the groups (of same size) indices</p>
+<p>grp_idx (1d_array) : indices of the group that can be filled (with cardinal &lt; s_max)</p>
+</dd>
+<dt>Returns:</dt><dd><p>G (Matrix) : Current state  i.e. current regroupements of debris after distribution</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="simulated-annealing">
+<h2>Simulated Annealing<a class="headerlink" href="#simulated-annealing" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-regroupement.optimizer.Recuit"></span><p>Created on 13/12/2021</p>
+<p>&#64;author: Yvan GARY</p>
+<dl class="py function">
+<dt id="regroupement.optimizer.Recuit.Recuit">
+<code class="sig-prename descclassname">regroupement.optimizer.Recuit.</code><code class="sig-name descname">Recuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nb_debris</span></em>, <em class="sig-param"><span class="n">s_min</span></em>, <em class="sig-param"><span class="n">s_max</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">Ti</span></em>, <em class="sig-param"><span class="n">Tf</span></em>, <em class="sig-param"><span class="n">alpha</span></em>, <em class="sig-param"><span class="n">n_classes</span></em>, <em class="sig-param"><span class="n">t_iter</span></em>, <em class="sig-param"><span class="n">n_iter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Recuit.Recuit" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Function computing the simulated annealing, with the corresponding dynamic of Metropolis.</dt><dd><p>It corresponds to the succession of Markov chains computed with decreasing temperatures. At the end
+we obtain a state G_out that minimizes the energy we defined, that is to say the sum of the delta_v
+associated to each groups. G_out contains the final groups that reach this minimal “global delta_v”.</p>
+</dd>
+<dt>Arguments:</dt><dd><p>nb_debris (int) : Number of debris in the given catalogue</p>
+<p>s_min (int) : Minimum number of debris contained in a group</p>
+<p>s_max (int) : Maximum number of debris contained in a group</p>
+<p>DV (Matrix) : Matrix containing the delta_v associated to each maneuver</p>
+<p>DT (Matrix): Matrix containing the elapsed time associated to each “J2 perturbation duration” between two debris</p>
+<p>Ti (float) : Initial temperature related to the dynamic of Metropolis</p>
+<p>Tf (float) : Final temperature related to the dynamic of Metropolis</p>
+<p>alpha (float) : Geometric factor to decrease Temperature (0 &lt; alpha &lt; 1)</p>
+<p>n_classes (array) : Number of classes for the displayed histogram (ex : range(100))</p>
+<p>t_iter (int) : Number of iterations for a Markov chain</p>
+<p>n_iter (int) : Number of Markov chains generated for each Temperature</p>
+</dd>
+<dt>Returns:</dt><dd><p>G_out (matrix) : Output state of the dynamic of Metropolis</p>
+<p>E_out (float) : Energy associated to the new state G_out</p>
+<p>freqs (array) : Frequencies associated to each energy</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../utils.html" class="btn btn-neutral float-right" title="Utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dV_computations.html" class="btn btn-neutral float-left" title="dV_computations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Gaetan PIERRE, Come OOSTERHOF, Tom SEMBLANET, Myrtille MONCLIN, Yvan GARY.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
