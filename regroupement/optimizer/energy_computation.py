@@ -96,7 +96,7 @@ def energy_computation_DT(G, DT, detail = False):
 		return dT
 
 
-def energy_computation(G, DV, DT, detail = False):
+def energy_computation(G, DV, DT, detail = False, cost = 'only_dV'):
 	''' Function used to compute the energy associated to a state
 
 	Arguments:
@@ -108,6 +108,10 @@ def energy_computation(G, DV, DT, detail = False):
 		
 		detail (bool) : False by default - If True, gives the detail of the energy for each group
 
+		cost (string) : Two possible options 
+			--> 'only_dV' (default parameter) : Selects cost function taking in account only the cost of dV maneuvers
+			--> 'dV_and_drift' : Selectes cost function taking in account the cost of dV maneuvers and the time of the drift due to the J2 perturbation
+
 	Returns: 
 		E (float): Energy associated to the state G
 		
@@ -115,27 +119,43 @@ def energy_computation(G, DV, DT, detail = False):
 		
 		E_transfers_dV (array) - optionnal : delta v associated to each individual group
 		
-		E_transfers_dt (array) - optionnal : elapsed time due to J2 perturbation associated to each individual group
+		E_transfers_dt (array) - optionnal : elapsed time due to J2 perturbation associated to each individual group in cost = 'dV_and_drift' case
 
 	'''
 
 	# Computation of the dV part
 	dV, dV_transfers = energy_computation_DV(G, DV, detail = True)
 
-	# Computation of the dt part
-	dt, dt_transfers = energy_computation_DT(G, DT, detail = True)
+	if cost == 'only_dV':
 
-	# Weighting the two parts
-	max_tolerated_dV = 3.0 # [km/s]
-	max_tolerated_dt = 3*365 # [days]
+		# Computation of the energy
+		E = dV
+		E_transfers = dV_transfers
 
-	weight_coef = max_tolerated_dV/max_tolerated_dt
+	elif cost == 'dV_and_drift':
 
-	# Computation of the energy
-	E = dV + weight_coef*dt
-	E_transfers = dV_transfers + weight_coef*dt_transfers
+		# Computation of the dt part
+		dt, dt_transfers = energy_computation_DT(G, DT, detail = True)
+
+		# Weighting the two parts
+		V_tol = 1.5 # [km/s]
+		t_tol = 3.0*365.0 # [days]
+
+		weight_coef = V_tol/t_tol
+
+		# Computation of the energy
+		E = dV + weight_coef*dt
+		E_transfers = dV_transfers + weight_coef*dt_transfers
+
+
+	else:
+		raise Exception('This cost function is not implemented, please choose between only_dV or dV_and_drift')
+
 
 	if detail:
-		return E, E_transfers, dV_transfers, dt_transfers
+		if cost == 'only_dV':
+			return E, E_transfers, dV_transfers
+		elif cost == 'dV_and_drift':
+			return E, E_transfers, dV_transfers, dt_transfers
 	else:
 		return E

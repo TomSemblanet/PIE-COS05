@@ -9,7 +9,7 @@ import numpy as np
 import random as rd
 from regroupement.optimizer.energy_computation import energy_computation
 
-def Init_alea_G(nb_debris, s_min, s_max, DV, DT):
+def Init_alea_G(nb_debris, s_min, s_max, DV, DT, cost = 'only_dV'):
 	''' Function used to initiate the optimization
 
 	Arguments:
@@ -22,6 +22,10 @@ def Init_alea_G(nb_debris, s_min, s_max, DV, DT):
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
 		
 		DT (Matrix): Matrix containing the elapsed time associated to each "J2 perturbation duration" between two debris
+
+		cost (string) : Two possible options 
+			--> 'only_dV' (default parameter) : Selects cost function taking in account only the cost of dV maneuvers
+			--> 'dV_and_drift' : Selectes cost function taking in account the cost of dV maneuvers and the time of the drift due to the J2 perturbation
 
 	Returns:
 		G (matrix): First state generated randomly to begin Optimization 
@@ -67,7 +71,7 @@ def Init_alea_G(nb_debris, s_min, s_max, DV, DT):
 	#           Computation of the Energy           #
 	#################################################
 
-	E = energy_computation(G,DV,DT)
+	E = energy_computation(G,DV,DT, cost = cost)
 
 	#################################################
 

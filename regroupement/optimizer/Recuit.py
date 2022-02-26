@@ -11,11 +11,10 @@ import matplotlib.pyplot as plt
 from time import sleep
 from tqdm import tqdm
 
-from regroupement.optimizer.energy_computation import energy_computation
 from regroupement.optimizer.Init_alea_G import Init_alea_G
 from regroupement.optimizer.Metropolis import Metropolis
 
-def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter):
+def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, cost = 'only_dV'):
 	''' Function computing the simulated annealing, with the corresponding dynamic of Metropolis.
 		It corresponds to the succession of Markov chains computed with decreasing temperatures. At the end
 		we obtain a state G_out that minimizes the energy we defined, that is to say the sum of the delta_v
@@ -46,6 +45,10 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 		
 		n_iter (int) : Number of Markov chains generated for each Temperature
 
+		cost (string) : Two possible options 
+			--> 'only_dV' (default parameter) : Selects cost function taking in account only the cost of dV maneuvers
+			--> 'dV_and_drift' : Selectes cost function taking in account the cost of dV maneuvers and the time of the drift due to the J2 perturbation
+
 
 	Returns:
 		G_out (matrix) : Output state of the dynamic of Metropolis 
@@ -57,7 +60,7 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 	'''
 
 	E_evol = np.zeros(t_iter) 	# Evolution of Energy along Markov chain
-	freqs = np.zeros(10*n_classes)
+	freqs = np.zeros(n_classes)
 
 	# Initializing Temperature
 	T = Ti
@@ -70,6 +73,10 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 
 	# Evolution of Energy along the whole simulated annealing process
 	E_evol_global = np.zeros(int(r*k))
+
+	# Initialization of an energy for the histogram range
+	G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT, cost = cost)
+	E_max = int(E_out)
 
 	count = 1
 
@@ -90,14 +97,14 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 
 			if T == Ti:
 				# Initialization of a random state 
-				G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT)
+				G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT, cost = cost)
 				E_evol[0] = E_out
 
 			# Transitory Markov Chain to reach a minimum
 			for t in range(1,t_iter):
 				G_in = G_out
 				E_in = E_out
-				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T)
+				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, cost = cost)
 				E_evol[t] = E_out
 
 			# Beginning of the recorded trajectory
@@ -106,14 +113,14 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 			for t in range(1,t_iter):
 				G_in = G_out
 				E_in = E_out
-				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T)
+				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, cost = cost)
 				E_evol[t] = E_out
 
 			# Getting the last portion of the chain for this T (for the plot)
 			if i == n_iter-1 :
 				E_evol_global[k*(count-1):k*count] = E_evol[t_iter-k-1:-1]
 
-			frequency, bins = np.histogram(E_evol, bins = 10*n_classes, range = (0,n_classes))
+			frequency, bins = np.histogram(E_evol, bins = n_classes, range = (0,n_classes))
 			freqs += frequency
 
 
@@ -121,7 +128,7 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 		count += 1
 
 	# Plotting the histogram
-	x_hist = np.linspace(0,30*n_classes, 10*n_classes)
+	x_hist = np.linspace(0, n_classes, n_classes)
 	plt.plot(x_hist, freqs)
 	plt.title('Frequency of Energies')
 	plt.xlabel('Energy')

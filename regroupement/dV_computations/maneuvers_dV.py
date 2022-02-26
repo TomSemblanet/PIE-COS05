@@ -46,9 +46,9 @@ def INC_dV(i1, i2, V1):
     """ Computes the delta-V [km/s] required to modify the INC of the orbit from i1 to i2 
 
     Arguments : 
-        a1 (float) : Initial INC [rad]
+        i1 (float) : Initial INC [rad]
 
-        a2 (float) : Final INC [rad]
+        i2 (float) : Final INC [rad]
 
         V1 (float) : Velocity on the orbit (supposed to be circular)
 
@@ -59,6 +59,26 @@ def INC_dV(i1, i2, V1):
 
     delta_i = np.abs(i2 - i1)
     dV = 2 * V1 * np.sin(delta_i / 2)
+
+    return dV
+
+def RAAN_dV(omega1, omega2, V1):
+    """ Computes the delta-V [km/s] required to modify the RAAN of the orbit from omega1 to omega2 
+
+    Arguments : 
+        omega1 (float) : Initial RAAN [rad]
+
+        omega2 (float) : Final RAAN [rad]
+
+        V1 (float) : Velocity on the orbit (supposed to be circular)
+
+
+    Returns : 
+        dV (float) : Required delta-V [km/s]
+    """
+
+    delta_omega = np.abs(omega2 - omega1)
+    dV = 2 * V1 * np.sin(delta_omega / 2)
 
     return dV
 

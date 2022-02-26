@@ -2,8 +2,8 @@ dV_computations
 ===============
 
 
-Time evaluation for J2 perturbation transfer
---------------------------------------------
+Time evaluation for RAAN alignment
+----------------------------------
 
 .. toctree::
    :maxdepth: 1

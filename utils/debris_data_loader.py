@@ -18,14 +18,14 @@ from spacetrack import SpaceTrackClient
 def recoveringDebrisData(*args):
     
     """ Function which aims to recover data from orbiting objects from Space-Track.org 
-    
-    Arguments : 
-    
-        args (list of int) : Norad IDs of objects of interest, default value is the list given in constant.py
-
-    Returns : 
-    
-        TLE_String (string) : Concatenated TLEs (string) of each object
+            inputs : 
+            ------
+                    - args : list of int
+                             Norad IDs of objects of interest, default value is the list given in constant.py
+            outputs : 
+            ------
+                    - TLE_String  : string
+				    Concatenated TLEs (string) of each object
 
     """
     
@@ -39,14 +39,15 @@ def recoveringDebrisData(*args):
 def convertTLEtoDF(TLE_String):
     
     """ Function which aims to convert data in TLE format towards pandas dataframe (for our set of debris) 
+            inputs : 
+            ------
+                    - TLE_String  : string
+				    Concatenated TLEs (string) of each object
 
-    Arguments : 
-    
-        TLE_String (string) : Concatenated TLEs (string) of each object
-
-    Returns : 
-    
-        TLE_DF (pandas dataframe) : DataFrame containing orbital parameters, time and mass for each debris
+            outputs : 
+            ------
+		    - TLE_DF  : pandas dataframe
+				DataFrame containing orbital parameters, time and mass for each debris
 
 
     """

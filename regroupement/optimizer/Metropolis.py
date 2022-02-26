@@ -82,7 +82,7 @@ def split_and_fill(G, grps, grp_idx):
 	return G
 
 
-def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T):
+def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, cost = 'only_dV'):
 	''' Function computing the dynamic of Metropolis. 
 
 	Arguments:
@@ -99,6 +99,10 @@ def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T):
 		DT (Matrix): Matrix containing the elapsed time associated to each "J2 perturbation duration" between two debris
 
 		T (float) : Temperature related to the dynamic of Metropolis
+
+		cost (string) : Two possible options 
+			--> 'only_dV' (default parameter) : Selects cost function taking in account only the cost of dV maneuvers
+			--> 'dV_and_drift' : Selectes cost function taking in account the cost of dV maneuvers and the time of the drift due to the J2 perturbation
 
 	Returns:
 		G_out (Matrix): Output state of the dynamic of Metropolis 
@@ -214,7 +218,7 @@ def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T):
 	# ENERGY COMPUTATION #
 	######################
 
-	E = energy_computation(G,DV,DT)
+	E = energy_computation(G,DV,DT, cost = cost)
 
 	###################
 	# STATE SELECTION #
