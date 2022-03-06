@@ -13,7 +13,7 @@ from regroupement.optimizer.Init_alea_G import Init_alea_G
 from regroupement.optimizer.Metropolis import Metropolis
 
 
-def Gibbs(nb_debris, DV, DT, T, s_min, s_max, n_classes, t_iter, n_iter, cost = 'only_dV', plot = False):
+def Gibbs(nb_debris, DV, DT, T, s_min, s_max, n_classes, t_iter, n_iter, V_tol, t_tol, plot = False):
 	''' Function propagating the dynamic of Metropolis along a Markov chain for a given Temperature n_iter times.
 
 	Arguments:
@@ -35,9 +35,9 @@ def Gibbs(nb_debris, DV, DT, T, s_min, s_max, n_classes, t_iter, n_iter, cost = 
 		
 		n_iter (int) : Number of Markov chains generated for each Temperature
 
-		cost (string) : Two possible options 
-			--> 'only_dV' (default parameter) : Selects cost function taking in account only the cost of dV maneuvers
-			--> 'dV_and_drift' : Selectes cost function taking in account the cost of dV maneuvers and the time of the drift due to the J2 perturbation
+		V_tol (float) : Order of magnitude of tolerated dV for one mission in km/s --> 1.0 km/s by default
+
+		t_tol (float) : Order of magnitude of tolerated duration for a mission in days --> 3*365.0 days by default
 
 		plot (boolean) : False by default. If True, plot the frequency of the energy encountered during the process
 
@@ -57,14 +57,14 @@ def Gibbs(nb_debris, DV, DT, T, s_min, s_max, n_classes, t_iter, n_iter, cost = 
 	for i in range(n_iter):
 
 		# Initialization of a random state 
-		G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT, cost = cost)
+		G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT, V_tol, t_tol)
 		E_evol[0] = E_out
 
 		# Transitory Markov Chain to reach a minimum
 		for t in range(1,t_iter):
 			G_in = G_out
 			E_in = E_out
-			G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, cost = cost)
+			G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol)
 			E_evol[t] = E_out
 
 		# Beginning of the recorded trajectory
@@ -73,7 +73,7 @@ def Gibbs(nb_debris, DV, DT, T, s_min, s_max, n_classes, t_iter, n_iter, cost = 
 		for t in range(1,t_iter):
 			G_in = G_out
 			E_in = E_out
-			G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, cost = cost)
+			G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol)
 			E_evol[t] = E_out
 
 		# frequency, bins, patches = plt.hist(E_evol, bins = n_classes, range= (0,n_classes))

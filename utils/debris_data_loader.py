@@ -15,18 +15,16 @@ import spacetrack
 from utils import constants
 from spacetrack import SpaceTrackClient
 
-def recoveringDebrisData(*args):
-    
+def recoveringDebrisData(*args):   
     """ Function which aims to recover data from orbiting objects from Space-Track.org 
-            inputs : 
-            ------
-                    - args : list of int
-                             Norad IDs of objects of interest, default value is the list given in constant.py
-            outputs : 
-            ------
-                    - TLE_String  : string
-				    Concatenated TLEs (string) of each object
+    
+    Arguments : 
+    
+        args (list of int) : Norad IDs of objects of interest, default value is the list given in constant.py
 
+    Returns : 
+    
+        TLE_String (string) : Concatenated TLEs (string) of each object
     """
     
     st = SpaceTrackClient('pierre.gaetan@outlook.com', 'zywraj-Tadky0-fezgek')
@@ -36,20 +34,16 @@ def recoveringDebrisData(*args):
         TLE_String=st.tle_latest(norad_cat_id=constants.NORAD_ID_DEBRIS, ordinal=1, format='tle')           
     return TLE_String
 
-def convertTLEtoDF(TLE_String):
-    
+def convertTLEtoDF(TLE_String):    
     """ Function which aims to convert data in TLE format towards pandas dataframe (for our set of debris) 
-            inputs : 
-            ------
-                    - TLE_String  : string
-				    Concatenated TLEs (string) of each object
+    
+    Arguments : 
+    
+        TLE_String (string) : Concatenated TLEs (string) of each object
 
-            outputs : 
-            ------
-		    - TLE_DF  : pandas dataframe
-				DataFrame containing orbital parameters, time and mass for each debris
-
-
+    Returns : 
+    
+        TLE_DF (pandas dataframe) : DataFrame containing orbital parameters, time and mass for each debris
     """
     
     columns=[ 'a (km)', 'e', 'i (rad)', 'RAAN (rad)', 'Argument of periapsis (rad)', 'Mean anomaly (rad)', 'Date (year)', 'Date (fraction of year)', 'Mass (kg)']

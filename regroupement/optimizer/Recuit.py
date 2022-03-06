@@ -8,13 +8,12 @@ Created on 13/12/2021
 import numpy as np
 import random as rd
 import matplotlib.pyplot as plt
-from time import sleep
-from tqdm import tqdm
+import sys
 
 from regroupement.optimizer.Init_alea_G import Init_alea_G
 from regroupement.optimizer.Metropolis import Metropolis
 
-def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, cost = 'only_dV'):
+def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = 1.0, t_tol = 3*365.0):
 	''' Function computing the simulated annealing, with the corresponding dynamic of Metropolis.
 		It corresponds to the succession of Markov chains computed with decreasing temperatures. At the end
 		we obtain a state G_out that minimizes the energy we defined, that is to say the sum of the delta_v
@@ -45,9 +44,9 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 		
 		n_iter (int) : Number of Markov chains generated for each Temperature
 
-		cost (string) : Two possible options 
-			--> 'only_dV' (default parameter) : Selects cost function taking in account only the cost of dV maneuvers
-			--> 'dV_and_drift' : Selectes cost function taking in account the cost of dV maneuvers and the time of the drift due to the J2 perturbation
+		V_tol (float) - optionnal : Order of magnitude of tolerated dV for one mission in km/s --> 1.0 km/s by default
+
+		t_tol (float) - optionnal : Order of magnitude of tolerated duration for a mission in days --> 3*365.0 days by default
 
 
 	Returns:
@@ -74,10 +73,6 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 	# Evolution of Energy along the whole simulated annealing process
 	E_evol_global = np.zeros(int(r*k))
 
-	# Initialization of an energy for the histogram range
-	G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT, cost = cost)
-	E_max = int(E_out)
-
 	count = 1
 
 	print('\n#########')
@@ -87,9 +82,7 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 	print('\n')
 
 	while T > Tf:
-	# for t in tqdm(range(np.int(r))):
-
-		# sleep(3)
+	# for t in range(np.int(r)):
 
 		print(count, '/', np.int(r))
 
@@ -97,14 +90,14 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 
 			if T == Ti:
 				# Initialization of a random state 
-				G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT, cost = cost)
+				G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT, V_tol, t_tol)
 				E_evol[0] = E_out
 
 			# Transitory Markov Chain to reach a minimum
 			for t in range(1,t_iter):
 				G_in = G_out
 				E_in = E_out
-				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, cost = cost)
+				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol)
 				E_evol[t] = E_out
 
 			# Beginning of the recorded trajectory
@@ -113,7 +106,7 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 			for t in range(1,t_iter):
 				G_in = G_out
 				E_in = E_out
-				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, cost = cost)
+				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol)
 				E_evol[t] = E_out
 
 			# Getting the last portion of the chain for this T (for the plot)

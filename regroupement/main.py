@@ -13,7 +13,9 @@ from utils import debris_data_loader as DDL
 from regroupement.dV_computations.dV_matrix import dV_matrix_generation
 from regroupement.dV_computations.compute_dt_alignment import compute_dt_matrix
 
-from regroupement.optimizer.energy_computation import energy_computation	
+from regroupement.optimizer.energy_computation import energy_computation
+from regroupement.optimizer.energy_computation import single_energy_computation
+
 from regroupement.optimizer.Recuit import Recuit
 from regroupement.optimizer.Gibbs import Gibbs
 
@@ -34,7 +36,6 @@ def plot_bars(Delta_v, Delta_t):
 if __name__ == "__main__":
 
 	debris_data = DDL.convertTLEtoDF(DDL.recoveringDebrisData())
-	debris_data = debris_data.sort_values(by=["RAAN (rad)"], ascending=False)
 	print(debris_data)
 
 	############### Implementing arguments for Recuit ############### 
@@ -73,7 +74,7 @@ if __name__ == "__main__":
 
 	# Defining temperature
 	# Ti = 1.5
-	Ti = 2
+	Ti = 1
 	Tf = 0.001
 
 	alpha = 0.97
@@ -83,113 +84,58 @@ if __name__ == "__main__":
 	# t_ier = 350
 	# n_iter = 50
 
-	#################################################################
+	n_classes = 150
 
-	#################################################################
-	#################################################################
-	#							  CASE 0							#
-	#################################################################
-	#################################################################
+	# Computing DV and DT matrices
+	DV = dV_matrix_generation(debris_data)
+	# DV = dV_matrix_generation(debris_data, RAAN_maneuver = True)
+	DT = compute_dt_matrix(debris_data)
 
-	# case = 0 	# Case 'only_dV' i.e. we only consider the cost of the maneuvers
+	# Tolerances
+	V_tol = 1.0
+	t_tol = 365.0
 
-	#################################################################
-	#################################################################
-	#							  CASE 1							#
-	#################################################################
-	#################################################################
+	G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = V_tol, t_tol = t_tol)
 
-	case = 1	# Case 'dV_and_drift' i.e. we consider the cost of the maneuvers and the duration of the RAAN alignment
+	# Getting results
+	E, grps = energy_computation(G_out, DV, DT, V_tol = V_tol, t_tol = t_tol, show_grps = True)
 
-	#################################################################
-	#################################################################
-	#							  CASE 2							#
-	#################################################################
-	#################################################################
+	all_dV = []
+	all_dT = []
 
-	# case = 2 	# Case 'only_dV' but taking in account maneuvers over the RAAN
+	count = 1
+	print('Groups : \n')
+	for grp in grps:
+		print('Group ', count, ' : ', grp)
+		print()
+		dV,dT = single_energy_computation(grp,DV,DT)
 
-	#################################################################
+		all_dV.append(dV)
+		all_dT.append(dT)
+		count += 1
+		
+	all_dV = np.array(all_dV)
+	all_dT = np.array(all_dT)
 
+	print('Mean Delta_v : ', np.mean(all_dV), '[km/s]')
+	print()
+	print('detail of delta V : ', all_dV)
+	print()
+	print('Mean mission duration : ', np.mean(all_dT)/365.0, '[years]')
+	print()
+	print('detail of mission duration : ', all_dT)
+	plot_bars(all_dV, all_dT/365.0)
 
-	if case == 0:
+	# nb_groups = len(all_dV)
 
-		n_classes = 10
+	# debris = range(1,nb_groups+1)
+	# debris = np.array(debris)
 
-		# Computing DV matrix
-		DV = dV_matrix_generation(debris_data)
-		DT = compute_dt_matrix(debris_data)
+	# plt.bar(debris, all_dV, color = 'r', width = 0.4, label = 'Delta V [km/s]')
+	# plt.legend()
+	# plt.xlabel('Groups')
+	# plt.show()
 
-	elif case == 1:
-
-		n_classes = 500
-
-		# Computing DV and DT matrices
-		DV = dV_matrix_generation(debris_data)
-		DT = compute_dt_matrix(debris_data)
-
-	else:
-
-		n_classes = 100
-
-		# Computing DV and DT matrices
-		DV = dV_matrix_generation(debris_data, RAAN_maneuver = True)
-		DT = compute_dt_matrix(debris_data)
-
-
-	# Launching Recuit
-	if case == 0 or case == 2:
-
-		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter)
-
-		# Getting results
-		E, E_transfers, E_transfers_dV = energy_computation(G_out, DV, DT, detail = True)
-
-		# Expliciting detail of groups
-		nb_grps = np.size(G_out,1)
-
-		for k in range(nb_grps):
-			grp = np.nonzero(G_out[:,k])[0]
-			print('\nGroup number ', k+1 , ' = ', grp)
-			print()
-
-		print('\nFinal Energy = ', E_out, ' [km/s]')
-		print('\n')
-		print('Detail of delta_v = ', E_transfers_dV, ' [km/s]')
-		print('\n')
-		print('\nFinal state :\n', G_out)
-
-	else:
-		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, cost = 'dV_and_drift')
-
-		# Getting results
-		E, E_transfers, E_transfers_dV, E_transfers_dt = energy_computation(G_out, DV, DT, detail = True, cost = 'dV_and_drift')
-
-		# Expliciting detail of groups
-		nb_grps = np.size(G_out,1)
-
-		for k in range(nb_grps):
-			grp = np.nonzero(G_out[:,k])[0]
-			print('\nGroup number ', k+1 , ' = ', grp)
-			print()
-
-		print('\nFinal Energy = ', E_out, ' [km/s]')
-		print('\n')
-		print('Detail of delta_v = ', E_transfers_dV, ' [km/s]')
-		print('\n')
-		print('Detail of elapsed time (J2) = ', E_transfers_dt, ' [days]')
-		print('\nFinal state :\n', G_out)
-
-		plot_bars(E_transfers_dV, np.array(E_transfers_dt)/365.0)
-
-
-
-
-
-
-	# # launching Gibbs as decreasing gradient to evaluate local minimums
-	# T = 0
-	# G_out, E_out, freqs = Gibbs(nb_debris, DV, DT, T, s_min, s_max, n_classes, t_iter, n_iter)
 
 
 
