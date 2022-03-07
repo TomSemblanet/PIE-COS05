@@ -35,6 +35,7 @@ def plot_bars(Delta_v, Delta_t):
 
 if __name__ == "__main__":
 
+	print('Loading debris data...')
 	debris_data = DDL.convertTLEtoDF(DDL.recoveringDebrisData())
 	print(debris_data)
 
@@ -74,12 +75,12 @@ if __name__ == "__main__":
 
 	# Defining temperature
 	# Ti = 1.5
-	Ti = 1
+	Ti = 1.5
 	Tf = 0.001
 
 	alpha = 0.97
 
-	t_iter = 1000
+	t_iter = 500
 	n_iter = 1
 	# t_ier = 350
 	# n_iter = 50
@@ -87,29 +88,60 @@ if __name__ == "__main__":
 	n_classes = 150
 
 	# Computing DV and DT matrices
-	DV = dV_matrix_generation(debris_data)
-	# DV = dV_matrix_generation(debris_data, RAAN_maneuver = True)
-	DT = compute_dt_matrix(debris_data)
+	# DV = dV_matrix_generation(debris_data)
+	# DT = compute_dt_matrix(debris_data)
 
 	# Tolerances
+	# V_tol = 1.0
 	V_tol = 1.0
-	t_tol = 365.0
+	t_tol = 3*365.0
 
-	G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = V_tol, t_tol = t_tol)
+	# CHOIX DU SCENARIO
+	scenario = 1
+	print('Scenario = ', scenario)
 
-	# Getting results
-	E, grps = energy_computation(G_out, DV, DT, V_tol = V_tol, t_tol = t_tol, show_grps = True)
+	# Scenario 1
+	if scenario == 1:
+		DV = dV_matrix_generation(debris_data)
+		DT = compute_dt_matrix(debris_data)
+		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = V_tol, t_tol = t_tol)
+
+		E, grps = energy_computation(G_out, DV, DT, V_tol = V_tol, t_tol = t_tol, show_grps = True)
+
+	# Scénario 2
+	elif scenario == 2:
+		DV = dV_matrix_generation(debris_data, RAAN_maneuver = True)
+		DT = compute_dt_matrix(debris_data)
+		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = 0.0, t_tol = t_tol)
+
+		E, grps = energy_computation(G_out, DV, DT, V_tol = V_tol, t_tol = t_tol, show_grps = True)
+
+	# Scénario 3
+	elif scenario == 3:
+		DV = dV_matrix_generation(debris_data)
+		DT = compute_dt_matrix(debris_data)
+		dV_matrix_RAAN = dV_matrix_generation(debris_data, RAAN_maneuver = True)
+		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = V_tol, t_tol = t_tol, DV_RAAN = dV_matrix_RAAN)
+
+		E, grps, RAAN_mans = energy_computation(G_out, DV, DT, V_tol = V_tol, t_tol = t_tol, DV_RAAN = dV_matrix_RAAN, show_grps = True)
+
+	else:
+		raise Exception('This scenario has not been implemented, please choose between 1,2 or 3.')
 
 	all_dV = []
 	all_dT = []
 
-	count = 1
+	count = 0
 	print('Groups : \n')
 	for grp in grps:
-		print('Group ', count, ' : ', grp)
-		print()
-		dV,dT = single_energy_computation(grp,DV,DT)
+		print('Group ', count + 1 , ' : ', grp)
+		if scenario == 1 or scenario == 2:
+			dV,dT = single_energy_computation(grp,DV,DT)
+		else:
+			dV,dT, RAAN_maneuver = single_energy_computation(grp,DV,DT,DV_RAAN=dV_matrix_RAAN, V_tol = V_tol, t_tol = t_tol)
+			print('Associated RAAN maneuver : ', RAAN_mans[count])
 
+		print()
 		all_dV.append(dV)
 		all_dT.append(dT)
 		count += 1
@@ -121,20 +153,21 @@ if __name__ == "__main__":
 	print()
 	print('detail of delta V : ', all_dV)
 	print()
-	print('Mean mission duration : ', np.mean(all_dT)/365.0, '[years]')
-	print()
-	print('detail of mission duration : ', all_dT)
-	plot_bars(all_dV, all_dT/365.0)
+	if scenario == 1 or scenario == 3 :
+		print('Mean mission duration : ', np.mean(all_dT)/365.0, '[years]')
+		print()
+		print('detail of mission duration : ', all_dT)
+		plot_bars(all_dV, all_dT/365.0)
+	else:
+		nb_groups = len(all_dV)
 
-	# nb_groups = len(all_dV)
+		debris = range(1,nb_groups+1)
+		debris = np.array(debris)
 
-	# debris = range(1,nb_groups+1)
-	# debris = np.array(debris)
-
-	# plt.bar(debris, all_dV, color = 'r', width = 0.4, label = 'Delta V [km/s]')
-	# plt.legend()
-	# plt.xlabel('Groups')
-	# plt.show()
+		plt.bar(debris, all_dV, color = 'r', width = 0.4, label = 'Delta V [km/s]')
+		plt.legend()
+		plt.xlabel('Groups')
+		plt.show()
 
 
 

@@ -115,4 +115,5 @@ if __name__ == '__main__':
     
     # Computation of the delta-V matrix 
     dV_matrix = dV_matrix_generation(debris_data)
+    dV_matrix_raan = dV_matrix_generation(debris_data, RAAN_maneuver = True)
     print_dV_matrix()

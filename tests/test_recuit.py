@@ -49,24 +49,27 @@ if __name__ == "__main__":
 
 	E_min = sum(sum(DV + DT))
 
-	cost = 'dV_and_drift'
+	V_tol = 1.0
+	t_tol = 3*365.0
 
 	n_try = 200
 
 	# Launching Gibbs
 	for i in range(n_try):
 		print(i+1, ' / ', n_try)
-		G_out, E_out, freq = Gibbs(nb_debris, DV, DT, T, s_min, s_max, n_classes, t_iter, n_iter, cost = cost)
+		G_out, E_out, freq = Gibbs(nb_debris, DV, DT, T, s_min, s_max, n_classes, t_iter, n_iter, V_tol = V_tol, t_tol = t_tol)
 
 		if E_out < E_min:
 			E_min = E_out
 			G_opt = G_out
 
-	E, E_transfers, E_transfers_dV, E_transfers_dt = energy_computation(G_opt, DV, DT, detail = True, cost = cost)
-	print(E_min)
-	print('detail of DV : ', E_transfers_dV)
-	print()
-	print('detail of Dt : ', E_transfers_dt)
+	print('E_min = ', E_min)
+
+	# E, E_transfers, E_transfers_dV, E_transfers_dt = energy_computation(G_opt, DV, DT, detail = True, cost = cost)
+	# print(E_min)
+	# print('detail of DV : ', E_transfers_dV)
+	# print()
+	# print('detail of Dt : ', E_transfers_dt)
 
 
 

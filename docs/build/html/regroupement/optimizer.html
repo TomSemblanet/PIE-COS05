@@ -189,7 +189,7 @@
 <p>&#64;author: Yvan GARY</p>
 <dl class="py function">
 <dt id="regroupement.optimizer.Init_alea_G.Init_alea_G">
-<code class="sig-prename descclassname">regroupement.optimizer.Init_alea_G.</code><code class="sig-name descname">Init_alea_G</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nb_debris</span></em>, <em class="sig-param"><span class="n">s_min</span></em>, <em class="sig-param"><span class="n">s_max</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Init_alea_G.Init_alea_G" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">regroupement.optimizer.Init_alea_G.</code><code class="sig-name descname">Init_alea_G</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nb_debris</span></em>, <em class="sig-param"><span class="n">s_min</span></em>, <em class="sig-param"><span class="n">s_max</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">V_tol</span></em>, <em class="sig-param"><span class="n">t_tol</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Init_alea_G.Init_alea_G" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function used to initiate the optimization</p>
 <dl>
 <dt>Arguments:</dt><dd><p>nb_debris (int): Number of debris in the given catalogue</p>
@@ -197,6 +197,8 @@
 <p>s_max (int) : Maximum number of debris contained in a group</p>
 <p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
 <p>DT (Matrix): Matrix containing the elapsed time associated to each “J2 perturbation duration” between two debris</p>
+<p>V_tol (float) : Order of magnitude of tolerated dV for one mission in km/s</p>
+<p>t_tol (float) : Order of magnitude of tolerated duration for a mission in days</p>
 </dd>
 <dt>Returns:</dt><dd><p>G (matrix): First state generated randomly to begin Optimization</p>
 <p>E (float): Energy associated to the state G</p>
@@ -213,48 +215,61 @@
 <p>&#64;author: Yvan GARY</p>
 <dl class="py function">
 <dt id="regroupement.optimizer.energy_computation.energy_computation">
-<code class="sig-prename descclassname">regroupement.optimizer.energy_computation.</code><code class="sig-name descname">energy_computation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">detail</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.energy_computation.energy_computation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">regroupement.optimizer.energy_computation.</code><code class="sig-name descname">energy_computation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">V_tol</span></em>, <em class="sig-param"><span class="n">t_tol</span></em>, <em class="sig-param"><span class="n">show_grps</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.energy_computation.energy_computation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function used to compute the energy associated to a state</p>
 <dl>
 <dt>Arguments:</dt><dd><p>G (Matrix): Actual state for which we compute the energy</p>
 <p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
 <p>DT (Matrix): Matrix containing the elapsed time associated to each “J2 perturbation duration” between two debris</p>
-<p>detail (bool) : False by default - If True, gives the detail of the energy for each group</p>
+<p>V_tol (float) : Order of magnitude of tolerated dV for one mission in km/s</p>
+<p>t_tol (float) : Order of magnitude of tolerated duration for a mission in days</p>
+<p>show_grps (bool) : False by default - If True, gives the detail of groups formed in the state</p>
 </dd>
 <dt>Returns: </dt><dd><p>E (float): Energy associated to the state G</p>
-<p>E_transfers (array) - optionnal : Energy associated to each individual group</p>
-<p>E_transfers_dV (array) - optionnal : delta v associated to each individual group</p>
-<p>E_transfers_dt (array) - optionnal : elapsed time due to J2 perturbation associated to each individual group</p>
+<p>grps (array) - optionnal : False by default. If true, gives the detail of the order of the maneuvers for each group</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="regroupement.optimizer.energy_computation.energy_computation_DT">
-<code class="sig-prename descclassname">regroupement.optimizer.energy_computation.</code><code class="sig-name descname">energy_computation_DT</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">detail</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.energy_computation.energy_computation_DT" title="Permalink to this definition">¶</a></dt>
+<dt id="regroupement.optimizer.energy_computation.minimal_energy_computation">
+<code class="sig-prename descclassname">regroupement.optimizer.energy_computation.</code><code class="sig-name descname">minimal_energy_computation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ordered_debris</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">V_tol</span></em>, <em class="sig-param"><span class="n">t_tol</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.energy_computation.minimal_energy_computation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to compute the energy associated to a state</p>
+<dl>
+<dt>Arguments:</dt><dd><p>ordered_debris (array) : array containing the debris in their natural order</p>
+<p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
+<p>DT (Matrix): Matrix containing the elapsed time associated to each “J2 perturbation duration” between two debris</p>
+<p>V_tol (float) : Order of magnitude of tolerated dV for one mission in km/s</p>
+<p>t_tol (float) : Order of magnitude of tolerated duration for a mission in days</p>
+</dd>
+<dt>Returns: </dt><dd><p>E_min (float): Minimal energy produced by the optimal combination of debris</p>
+<p>debris_opt (array) : Optimal debirs configuration for successive maneuvers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="regroupement.optimizer.energy_computation.single_energy_computation_DT">
+<code class="sig-prename descclassname">regroupement.optimizer.energy_computation.</code><code class="sig-name descname">single_energy_computation_DT</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">debris</span></em>, <em class="sig-param"><span class="n">DT</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.energy_computation.single_energy_computation_DT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function used to compute the delta t (J2) associated to a state</p>
 <dl>
-<dt>Arguments:</dt><dd><p>G (Matrix): Actual state for which we compute the energy</p>
-<p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
-<p>detail (bool) : False by default - If True, gives the detail of the delta v for each group</p>
+<dt>Arguments:</dt><dd><p>debris (array) : Array containing a combination of debris</p>
+<p>DT (Matrix): Matrix containing the delta_t associated to each J2 drift</p>
 </dd>
-<dt>Returns: </dt><dd><p>dV (float): Global delta v associated to the state G</p>
-<p>dV_transfers (array) - optionnal : Global delta v associated to each individual group</p>
+<dt>Returns: </dt><dd><p>dT (float): Global elapsed time for RAAN alignement</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="regroupement.optimizer.energy_computation.energy_computation_DV">
-<code class="sig-prename descclassname">regroupement.optimizer.energy_computation.</code><code class="sig-name descname">energy_computation_DV</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">detail</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.energy_computation.energy_computation_DV" title="Permalink to this definition">¶</a></dt>
+<dt id="regroupement.optimizer.energy_computation.single_energy_computation_DV">
+<code class="sig-prename descclassname">regroupement.optimizer.energy_computation.</code><code class="sig-name descname">single_energy_computation_DV</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">debris</span></em>, <em class="sig-param"><span class="n">DV</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.energy_computation.single_energy_computation_DV" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function used to compute the delta v associated to a state</p>
 <dl>
-<dt>Arguments:</dt><dd><p>G (Matrix): Actual state for which we compute the energy</p>
+<dt>Arguments:</dt><dd><p>debris (array) : Array containing a combination of debris</p>
 <p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
-<p>detail (bool) : False by default - If True, gives the detail of the delta v for each group</p>
 </dd>
 <dt>Returns: </dt><dd><p>dV (float): Global delta v associated to the state G</p>
-<p>dV_transfers (array) - optionnal : Global delta v associated to each individual group</p>
 </dd>
 </dl>
 </dd></dl>
@@ -268,7 +283,7 @@
 <p>&#64;author: Yvan GARY</p>
 <dl class="py function">
 <dt id="regroupement.optimizer.Metropolis.Metropolis">
-<code class="sig-prename descclassname">regroupement.optimizer.Metropolis.</code><code class="sig-name descname">Metropolis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G_in</span></em>, <em class="sig-param"><span class="n">E_in</span></em>, <em class="sig-param"><span class="n">s_min</span></em>, <em class="sig-param"><span class="n">s_max</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">T</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Metropolis.Metropolis" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">regroupement.optimizer.Metropolis.</code><code class="sig-name descname">Metropolis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G_in</span></em>, <em class="sig-param"><span class="n">E_in</span></em>, <em class="sig-param"><span class="n">s_min</span></em>, <em class="sig-param"><span class="n">s_max</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">V_tol</span></em>, <em class="sig-param"><span class="n">t_tol</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Metropolis.Metropolis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function computing the dynamic of Metropolis.</p>
 <dl>
 <dt>Arguments:</dt><dd><p>G_in (Matrix): Current state  i.e. current regroupments of debris</p>
@@ -278,6 +293,8 @@
 <p>DV (Matrix): Matrix containing the delta_v associated to each maneuver</p>
 <p>DT (Matrix): Matrix containing the elapsed time associated to each “J2 perturbation duration” between two debris</p>
 <p>T (float) : Temperature related to the dynamic of Metropolis</p>
+<p>V_tol (float) : Order of magnitude of tolerated dV for one mission in km/s</p>
+<p>t_tol (float) : Order of magnitude of tolerated duration for a mission in days</p>
 </dd>
 <dt>Returns:</dt><dd><p>G_out (Matrix): Output state of the dynamic of Metropolis</p>
 <p>E_out (float): Energy associated to the new state G_out</p>
@@ -322,7 +339,7 @@
 <p>&#64;author: Yvan GARY</p>
 <dl class="py function">
 <dt id="regroupement.optimizer.Recuit.Recuit">
-<code class="sig-prename descclassname">regroupement.optimizer.Recuit.</code><code class="sig-name descname">Recuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nb_debris</span></em>, <em class="sig-param"><span class="n">s_min</span></em>, <em class="sig-param"><span class="n">s_max</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">Ti</span></em>, <em class="sig-param"><span class="n">Tf</span></em>, <em class="sig-param"><span class="n">alpha</span></em>, <em class="sig-param"><span class="n">n_classes</span></em>, <em class="sig-param"><span class="n">t_iter</span></em>, <em class="sig-param"><span class="n">n_iter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Recuit.Recuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">regroupement.optimizer.Recuit.</code><code class="sig-name descname">Recuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nb_debris</span></em>, <em class="sig-param"><span class="n">s_min</span></em>, <em class="sig-param"><span class="n">s_max</span></em>, <em class="sig-param"><span class="n">DV</span></em>, <em class="sig-param"><span class="n">DT</span></em>, <em class="sig-param"><span class="n">Ti</span></em>, <em class="sig-param"><span class="n">Tf</span></em>, <em class="sig-param"><span class="n">alpha</span></em>, <em class="sig-param"><span class="n">n_classes</span></em>, <em class="sig-param"><span class="n">t_iter</span></em>, <em class="sig-param"><span class="n">n_iter</span></em>, <em class="sig-param"><span class="n">V_tol</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">t_tol</span><span class="o">=</span><span class="default_value">1095.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.optimizer.Recuit.Recuit" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
 <dt>Function computing the simulated annealing, with the corresponding dynamic of Metropolis.</dt><dd><p>It corresponds to the succession of Markov chains computed with decreasing temperatures. At the end
 we obtain a state G_out that minimizes the energy we defined, that is to say the sum of the delta_v
@@ -339,6 +356,8 @@ associated to each groups. G_out contains the final groups that reach this minim
 <p>n_classes (array) : Number of classes for the displayed histogram (ex : range(100))</p>
 <p>t_iter (int) : Number of iterations for a Markov chain</p>
 <p>n_iter (int) : Number of Markov chains generated for each Temperature</p>
+<p>V_tol (float) - optionnal : Order of magnitude of tolerated dV for one mission in km/s –&gt; 1.0 km/s by default</p>
+<p>t_tol (float) - optionnal : Order of magnitude of tolerated duration for a mission in days –&gt; 3*365.0 days by default</p>
 </dd>
 <dt>Returns:</dt><dd><p>G_out (matrix) : Output state of the dynamic of Metropolis</p>
 <p>E_out (float) : Energy associated to the new state G_out</p>

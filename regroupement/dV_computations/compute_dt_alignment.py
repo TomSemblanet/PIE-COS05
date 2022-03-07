@@ -91,7 +91,7 @@ def compute_dt(a1,a2,i1,i2,RAAN1, RAAN2):
 
 def compute_dt_matrix(debris_data):
 
-    """ 
+	""" 
     Function computing the delta_t matrix of all possible transfer from a debris to another
 
     Arguments :         
@@ -101,48 +101,48 @@ def compute_dt_matrix(debris_data):
         dt_matrix (array) : Matrix whose (i,j) indice represents the delta_t (in seconds) required to modify the RAAN of the orbit from the RAAN of the debris i to the RAAN of the debris j
 
     """
-    dt_matrix = np.zeros((constants.N_DEBRIS, constants.N_DEBRIS))
-    for l in range(constants.N_DEBRIS):
-        a=debris_data.values[l][0]
-        i=debris_data.values[l][2]
-        RAAN=debris_data.values[l][3]
-        dt_matrix[l][l]=0.
-        for j in range (l):
-            dt=compute_dt(a,debris_data.values[j][0], i, debris_data.values[j][2], RAAN, debris_data.values[j][3])
-            dt_matrix[l][j]=dt
-            dt_matrix[j][l]=dt
-    return dt_matrix
+	dt_matrix = np.zeros((constants.N_DEBRIS, constants.N_DEBRIS))
+	for l in range(constants.N_DEBRIS):
+		a=debris_data.values[l][0]
+		i=debris_data.values[l][2]
+		RAAN=debris_data.values[l][3]
+		dt_matrix[l][l]=0.
+		for j in range (l):
+			dt=compute_dt(a,debris_data.values[j][0], i, debris_data.values[j][2], RAAN, debris_data.values[j][3])
+			dt_matrix[l][j]=dt
+			dt_matrix[j][l]=dt
+	return dt_matrix
 
 
 if __name__ == "__main__":
 
-    # Setting the font
+	# Setting the font
 
     rc('font', **{'family':'serif','serif':['Palatino']})
     rc('text', usetex=True)
 
-    ###############################
-    #                             #
-    #       Recovering data       #
-    #                             #
-    ###############################
+	###############################
+	#  							  #
+	#  	    Recovering data       #
+	#							  #
+	###############################
 
     debris_data = DDL.convertTLEtoDF(DDL.recoveringDebrisData())
     # print(debris_data)
 
-    ###############################
-    #                             #
-    #         Computing Δt        #
-    #                             #
-    ###############################
+	###############################
+	#  							  #
+	#  	      Computing Δt        #
+	#							  #
+	###############################
 
     dt_matrix=compute_dt_matrix(debris_data)
 
-    ###############################
-    #                             #
-    #    Plotting the results     #
-    #                             #
-    ###############################
+	###############################
+	#  							  #
+	#    Plotting the results     #
+	#							  #
+	###############################
 
     dt_max=360
     ticks=np.arange(1,constants.N_DEBRIS,2)
@@ -157,6 +157,7 @@ if __name__ == "__main__":
     colorbar.set_label('$ \Delta t $ for RAAN alignment [days]')
 
     plt.show()
+
 
 
 

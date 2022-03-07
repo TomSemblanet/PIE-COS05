@@ -9,7 +9,7 @@ import numpy as np
 import random as rd
 from regroupement.optimizer.energy_computation import energy_computation
 
-def Init_alea_G(nb_debris, s_min, s_max, DV, DT, V_tol, t_tol):
+def Init_alea_G(nb_debris, s_min, s_max, DV, DT, V_tol, t_tol, DV_RAAN = None):
 	''' Function used to initiate the optimization
 
 	Arguments:
@@ -26,6 +26,8 @@ def Init_alea_G(nb_debris, s_min, s_max, DV, DT, V_tol, t_tol):
 		V_tol (float) : Order of magnitude of tolerated dV for one mission in km/s
 
 		t_tol (float) : Order of magnitude of tolerated duration for a mission in days
+
+		DV_RAAN (Matrix) - optionnal : None by default. Matrix containing the delta_v associated to each maneuver, including the ones in RAAN
 
 	Returns:
 		G (matrix): First state generated randomly to begin Optimization 
@@ -71,7 +73,7 @@ def Init_alea_G(nb_debris, s_min, s_max, DV, DT, V_tol, t_tol):
 	#           Computation of the Energy           #
 	#################################################
 
-	E = energy_computation(G,DV,DT,V_tol,t_tol)
+	E = energy_computation(G,DV,DT,V_tol,t_tol, DV_RAAN = DV_RAAN)
 
 	#################################################
 

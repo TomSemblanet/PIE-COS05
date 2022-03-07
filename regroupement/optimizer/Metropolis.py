@@ -82,7 +82,7 @@ def split_and_fill(G, grps, grp_idx):
 	return G
 
 
-def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol):
+def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol, DV_RAAN = None):
 	''' Function computing the dynamic of Metropolis. 
 
 	Arguments:
@@ -103,6 +103,8 @@ def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol):
 		V_tol (float) : Order of magnitude of tolerated dV for one mission in km/s
 
 		t_tol (float) : Order of magnitude of tolerated duration for a mission in days
+
+		DV_RAAN (Matrix) - optionnal : None by default. Matrix containing the delta_v associated to each maneuver, including the ones in RAAN
 
 	Returns:
 		G_out (Matrix): Output state of the dynamic of Metropolis 
@@ -218,7 +220,7 @@ def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol):
 	# ENERGY COMPUTATION #
 	######################
 
-	E = energy_computation(G,DV,DT,V_tol,t_tol)
+	E = energy_computation(G,DV,DT,V_tol,t_tol,DV_RAAN=DV_RAAN)
 
 	###################
 	# STATE SELECTION #

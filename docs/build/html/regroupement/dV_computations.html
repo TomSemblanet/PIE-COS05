@@ -92,7 +92,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../regroupement.html">Regroupement</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">dV_computations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#time-evaluation-for-j2-perturbation-transfer">Time evaluation for J2 perturbation transfer</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="#time-evaluation-for-raan-alignment">Time evaluation for RAAN alignment</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#computation-of-the-delta-v-associated-to-a-maneuver">Computation of the delta-v associated to a maneuver</a><ul class="simple">
@@ -178,8 +178,8 @@
             
   <div class="section" id="dv-computations">
 <h1>dV_computations<a class="headerlink" href="#dv-computations" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="time-evaluation-for-j2-perturbation-transfer">
-<h2>Time evaluation for J2 perturbation transfer<a class="headerlink" href="#time-evaluation-for-j2-perturbation-transfer" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="time-evaluation-for-raan-alignment">
+<h2>Time evaluation for RAAN alignment<a class="headerlink" href="#time-evaluation-for-raan-alignment" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 </div>
 <span class="target" id="module-regroupement.dV_computations.compute_dt_alignment"></span><p>Created on Wed Jan 26 18:09:33 2022</p>
@@ -250,8 +250,22 @@
 <code class="sig-prename descclassname">regroupement.dV_computations.maneuvers_dV.</code><code class="sig-name descname">INC_dV</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">i1</span></em>, <em class="sig-param"><span class="n">i2</span></em>, <em class="sig-param"><span class="n">V1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.dV_computations.maneuvers_dV.INC_dV" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the delta-V [km/s] required to modify the INC of the orbit from i1 to i2</p>
 <dl>
-<dt>Arguments<span class="classifier"></span></dt><dd><p>a1 (float) : Initial INC [rad]</p>
-<p>a2 (float) : Final INC [rad]</p>
+<dt>Arguments<span class="classifier"></span></dt><dd><p>i1 (float) : Initial INC [rad]</p>
+<p>i2 (float) : Final INC [rad]</p>
+<p>V1 (float) : Velocity on the orbit (supposed to be circular)</p>
+</dd>
+<dt>Returns<span class="classifier"></span></dt><dd><p>dV (float) : Required delta-V [km/s]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="regroupement.dV_computations.maneuvers_dV.RAAN_dV">
+<code class="sig-prename descclassname">regroupement.dV_computations.maneuvers_dV.</code><code class="sig-name descname">RAAN_dV</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">omega1</span></em>, <em class="sig-param"><span class="n">omega2</span></em>, <em class="sig-param"><span class="n">V1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#regroupement.dV_computations.maneuvers_dV.RAAN_dV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the delta-V [km/s] required to modify the RAAN of the orbit from omega1 to omega2</p>
+<dl>
+<dt>Arguments<span class="classifier"></span></dt><dd><p>omega1 (float) : Initial RAAN [rad]</p>
+<p>omega2 (float) : Final RAAN [rad]</p>
 <p>V1 (float) : Velocity on the orbit (supposed to be circular)</p>
 </dd>
 <dt>Returns<span class="classifier"></span></dt><dd><p>dV (float) : Required delta-V [km/s]</p>
@@ -309,8 +323,8 @@
 <code class="sig-prename descclassname">regroupement.dV_computations.maneuvers_dV.</code><code class="sig-name descname">INC_dV</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">i1</span></em>, <em class="sig-param"><span class="n">i2</span></em>, <em class="sig-param"><span class="n">V1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the delta-V [km/s] required to modify the INC of the orbit from i1 to i2</p>
 <dl>
-<dt>Arguments<span class="classifier"></span></dt><dd><p>a1 (float) : Initial INC [rad]</p>
-<p>a2 (float) : Final INC [rad]</p>
+<dt>Arguments<span class="classifier"></span></dt><dd><p>i1 (float) : Initial INC [rad]</p>
+<p>i2 (float) : Final INC [rad]</p>
 <p>V1 (float) : Velocity on the orbit (supposed to be circular)</p>
 </dd>
 <dt>Returns<span class="classifier"></span></dt><dd><p>dV (float) : Required delta-V [km/s]</p>
@@ -320,7 +334,21 @@
 
 <dl class="py function">
 <dt id="id2">
-<code class="sig-prename descclassname">regroupement.dV_computations.maneuvers_dV.</code><code class="sig-name descname">SMA_dV</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a1</span></em>, <em class="sig-param"><span class="n">a2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">regroupement.dV_computations.maneuvers_dV.</code><code class="sig-name descname">RAAN_dV</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">omega1</span></em>, <em class="sig-param"><span class="n">omega2</span></em>, <em class="sig-param"><span class="n">V1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the delta-V [km/s] required to modify the RAAN of the orbit from omega1 to omega2</p>
+<dl>
+<dt>Arguments<span class="classifier"></span></dt><dd><p>omega1 (float) : Initial RAAN [rad]</p>
+<p>omega2 (float) : Final RAAN [rad]</p>
+<p>V1 (float) : Velocity on the orbit (supposed to be circular)</p>
+</dd>
+<dt>Returns<span class="classifier"></span></dt><dd><p>dV (float) : Required delta-V [km/s]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="id3">
+<code class="sig-prename descclassname">regroupement.dV_computations.maneuvers_dV.</code><code class="sig-name descname">SMA_dV</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a1</span></em>, <em class="sig-param"><span class="n">a2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the delta-V [km/s] required to modify the SMA of the orbit from ai to af</p>
 <dl>
 <dt>Arguments<span class="classifier"></span></dt><dd><p>a1 (float) : Initial SMA [km]</p>

@@ -13,7 +13,7 @@ import sys
 from regroupement.optimizer.Init_alea_G import Init_alea_G
 from regroupement.optimizer.Metropolis import Metropolis
 
-def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = 1.0, t_tol = 3*365.0):
+def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = 1.0, t_tol = 365.0, DV_RAAN = None):
 	''' Function computing the simulated annealing, with the corresponding dynamic of Metropolis.
 		It corresponds to the succession of Markov chains computed with decreasing temperatures. At the end
 		we obtain a state G_out that minimizes the energy we defined, that is to say the sum of the delta_v
@@ -46,7 +46,11 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 
 		V_tol (float) - optionnal : Order of magnitude of tolerated dV for one mission in km/s --> 1.0 km/s by default
 
-		t_tol (float) - optionnal : Order of magnitude of tolerated duration for a mission in days --> 3*365.0 days by default
+		t_tol (float) - optionnal : Order of magnitude of tolerated duration for a mission in days --> 365.0 days by default
+
+		DV_RAAN (Matrix) - optionnal : Matrix containing the delta_v associated to each maneuver, including the ones in RAAN
+			--> set to None by default	
+
 
 
 	Returns:
@@ -90,14 +94,14 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 
 			if T == Ti:
 				# Initialization of a random state 
-				G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT, V_tol, t_tol)
+				G_out,E_out = Init_alea_G(nb_debris, s_min, s_max, DV, DT, V_tol, t_tol, DV_RAAN = DV_RAAN)
 				E_evol[0] = E_out
 
 			# Transitory Markov Chain to reach a minimum
 			for t in range(1,t_iter):
 				G_in = G_out
 				E_in = E_out
-				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol)
+				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol, DV_RAAN = DV_RAAN)
 				E_evol[t] = E_out
 
 			# Beginning of the recorded trajectory
@@ -106,7 +110,7 @@ def Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_
 			for t in range(1,t_iter):
 				G_in = G_out
 				E_in = E_out
-				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol)
+				G_out, E_out = Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol, DV_RAAN = DV_RAAN)
 				E_evol[t] = E_out
 
 			# Getting the last portion of the chain for this T (for the plot)
