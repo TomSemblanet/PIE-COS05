@@ -71,14 +71,13 @@ if __name__ == "__main__":
 
 	# Max and min number of debris per group
 	s_min = 4
-	s_max = 5
+	s_max = 4
 
 	# Defining temperature
-	# Ti = 1.5
-	Ti = 1.5
-	Tf = 0.001
+	Ti = 0.001
+	Tf = 0.00098
 
-	alpha = 0.97
+	alpha = 0.95
 
 	t_iter = 500
 	n_iter = 1
@@ -94,36 +93,34 @@ if __name__ == "__main__":
 	# Tolerances
 	# V_tol = 1.0
 	V_tol = 1.0
-	t_tol = 3*365.0
+	t_tol = 365.0
 
 	# CHOIX DU SCENARIO
 	scenario = 1
+	print()
 	print('Scenario = ', scenario)
 
 	# Scenario 1
 	if scenario == 1:
 		DV = dV_matrix_generation(debris_data)
-		DT = compute_dt_matrix(debris_data)
-		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = V_tol, t_tol = t_tol)
+		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, debris_data, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = V_tol, t_tol = t_tol)
 
-		E, grps = energy_computation(G_out, DV, DT, V_tol = V_tol, t_tol = t_tol, show_grps = True)
+		E, grps = energy_computation(G_out, DV, debris_data, V_tol = V_tol, t_tol = t_tol, show_grps = True)
 
 	# Scénario 2
 	elif scenario == 2:
 		DV = dV_matrix_generation(debris_data, RAAN_maneuver = True)
-		DT = compute_dt_matrix(debris_data)
-		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = 0.0, t_tol = t_tol)
+		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, debris_data, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = 0.0, t_tol = t_tol)
 
 		E, grps = energy_computation(G_out, DV, DT, V_tol = V_tol, t_tol = t_tol, show_grps = True)
 
 	# Scénario 3
 	elif scenario == 3:
 		DV = dV_matrix_generation(debris_data)
-		DT = compute_dt_matrix(debris_data)
 		dV_matrix_RAAN = dV_matrix_generation(debris_data, RAAN_maneuver = True)
-		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, DT, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = V_tol, t_tol = t_tol, DV_RAAN = dV_matrix_RAAN)
+		G_out, E_out, freqs = Recuit(nb_debris, s_min, s_max, DV, debris_data, Ti, Tf, alpha, n_classes, t_iter, n_iter, V_tol = V_tol, t_tol = t_tol, DV_RAAN = dV_matrix_RAAN)
 
-		E, grps, RAAN_mans = energy_computation(G_out, DV, DT, V_tol = V_tol, t_tol = t_tol, DV_RAAN = dV_matrix_RAAN, show_grps = True)
+		E, grps, RAAN_mans = energy_computation(G_out, DV, debris_data, V_tol = V_tol, t_tol = t_tol, DV_RAAN = dV_matrix_RAAN, show_grps = True)
 
 	else:
 		raise Exception('This scenario has not been implemented, please choose between 1,2 or 3.')
@@ -136,9 +133,9 @@ if __name__ == "__main__":
 	for grp in grps:
 		print('Group ', count + 1 , ' : ', grp)
 		if scenario == 1 or scenario == 2:
-			dV,dT = single_energy_computation(grp,DV,DT)
+			dV,dT = single_energy_computation(grp,DV,debris_data)
 		else:
-			dV,dT, RAAN_maneuver = single_energy_computation(grp,DV,DT,DV_RAAN=dV_matrix_RAAN, V_tol = V_tol, t_tol = t_tol)
+			dV,dT, RAAN_maneuver = single_energy_computation(grp,DV,debris_data,DV_RAAN=dV_matrix_RAAN, V_tol = V_tol, t_tol = t_tol)
 			print('Associated RAAN maneuver : ', RAAN_mans[count])
 
 		print()

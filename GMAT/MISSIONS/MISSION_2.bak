@@ -1,0 +1,425 @@
+%----------------------------------------
+%---------- Spacecrafts
+%----------------------------------------
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft HUNTER;
+GMAT HUNTER.DateFormat = UTCGregorian;
+GMAT HUNTER.Epoch = '04 Jul 2014 09:30:15.235';
+GMAT HUNTER.CoordinateSystem = EarthMJ2000Eq;
+GMAT HUNTER.DisplayStateType = Keplerian;
+GMAT HUNTER.SMA = 7199.999999999998;
+GMAT HUNTER.ECC = 9.999999999978269e-05;
+GMAT HUNTER.INC = 51.56620156177409;
+GMAT HUNTER.RAAN = 11.45915590261647;
+GMAT HUNTER.AOP = 22.91831180521466;
+GMAT HUNTER.TA = 34.37746770786767;
+GMAT HUNTER.DryMass = 850;
+GMAT HUNTER.Cd = 2.2;
+GMAT HUNTER.Cr = 1.8;
+GMAT HUNTER.DragArea = 15;
+GMAT HUNTER.SRPArea = 1;
+GMAT HUNTER.SPADDragScaleFactor = 1;
+GMAT HUNTER.SPADSRPScaleFactor = 1;
+GMAT HUNTER.NAIFId = -10001001;
+GMAT HUNTER.NAIFIdReferenceFrame = -9001001;
+GMAT HUNTER.OrbitColor = Red;
+GMAT HUNTER.TargetColor = Teal;
+GMAT HUNTER.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT HUNTER.CdSigma = 1e+70;
+GMAT HUNTER.CrSigma = 1e+70;
+GMAT HUNTER.Id = 'SatId';
+GMAT HUNTER.Attitude = CoordinateSystemFixed;
+GMAT HUNTER.SPADSRPInterpolationMethod = Bilinear;
+GMAT HUNTER.SPADSRPScaleFactorSigma = 1e+70;
+GMAT HUNTER.SPADDragInterpolationMethod = Bilinear;
+GMAT HUNTER.SPADDragScaleFactorSigma = 1e+70;
+GMAT HUNTER.ModelFile = 'aura.3ds';
+GMAT HUNTER.ModelOffsetX = 0;
+GMAT HUNTER.ModelOffsetY = 0;
+GMAT HUNTER.ModelOffsetZ = 0;
+GMAT HUNTER.ModelRotationX = 0;
+GMAT HUNTER.ModelRotationY = 0;
+GMAT HUNTER.ModelRotationZ = 0;
+GMAT HUNTER.ModelScale = 1;
+GMAT HUNTER.AttitudeDisplayStateType = 'Quaternion';
+GMAT HUNTER.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT HUNTER.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT HUNTER.EulerAngleSequence = '321';
+
+Create Spacecraft TARGET1;
+GMAT TARGET1.DateFormat = UTCGregorian;
+GMAT TARGET1.Epoch = '04 Jul 2014 09:30:15.235';
+GMAT TARGET1.CoordinateSystem = EarthMJ2000Eq;
+GMAT TARGET1.DisplayStateType = Keplerian;
+GMAT TARGET1.SMA = 7345.817253545278;
+GMAT TARGET1.ECC = 0.001587199999999748;
+GMAT TARGET1.INC = 82.9435;
+GMAT TARGET1.RAAN = 84.41450000000002;
+GMAT TARGET1.AOP = 194.1813999999679;
+GMAT TARGET1.TA = 340.0366000000322;
+GMAT TARGET1.DryMass = 850;
+GMAT TARGET1.Cd = 2.2;
+GMAT TARGET1.Cr = 1.8;
+GMAT TARGET1.DragArea = 15;
+GMAT TARGET1.SRPArea = 1;
+GMAT TARGET1.SPADDragScaleFactor = 1;
+GMAT TARGET1.SPADSRPScaleFactor = 1;
+GMAT TARGET1.NAIFId = -10002001;
+GMAT TARGET1.NAIFIdReferenceFrame = -9002001;
+GMAT TARGET1.OrbitColor = Green;
+GMAT TARGET1.TargetColor = LightGray;
+GMAT TARGET1.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT TARGET1.CdSigma = 1e+70;
+GMAT TARGET1.CrSigma = 1e+70;
+GMAT TARGET1.Id = 'SatId';
+GMAT TARGET1.Attitude = CoordinateSystemFixed;
+GMAT TARGET1.SPADSRPInterpolationMethod = Bilinear;
+GMAT TARGET1.SPADSRPScaleFactorSigma = 1e+70;
+GMAT TARGET1.SPADDragInterpolationMethod = Bilinear;
+GMAT TARGET1.SPADDragScaleFactorSigma = 1e+70;
+GMAT TARGET1.ModelFile = 'aura.3ds';
+GMAT TARGET1.ModelOffsetX = 0;
+GMAT TARGET1.ModelOffsetY = 0;
+GMAT TARGET1.ModelOffsetZ = 0;
+GMAT TARGET1.ModelRotationX = 0;
+GMAT TARGET1.ModelRotationY = 0;
+GMAT TARGET1.ModelRotationZ = 0;
+GMAT TARGET1.ModelScale = 1;
+GMAT TARGET1.AttitudeDisplayStateType = 'Quaternion';
+GMAT TARGET1.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT TARGET1.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT TARGET1.EulerAngleSequence = '321';
+
+Create Spacecraft TARGET2;
+GMAT TARGET2.DateFormat = UTCGregorian;
+GMAT TARGET2.Epoch = '04 Jul 2014 09:30:15.235';
+GMAT TARGET2.CoordinateSystem = EarthMJ2000Eq;
+GMAT TARGET2.DisplayStateType = Keplerian;
+GMAT TARGET2.SMA = 7221.496754339263;
+GMAT TARGET2.ECC = 0.007259800000000212;
+GMAT TARGET2.INC = 81.2526;
+GMAT TARGET2.RAAN = 112.3302;
+GMAT TARGET2.AOP = 117.2175999999995;
+GMAT TARGET2.TA = 310.1410000000005;
+GMAT TARGET2.DryMass = 850;
+GMAT TARGET2.Cd = 2.2;
+GMAT TARGET2.Cr = 1.8;
+GMAT TARGET2.DragArea = 15;
+GMAT TARGET2.SRPArea = 1;
+GMAT TARGET2.SPADDragScaleFactor = 1;
+GMAT TARGET2.SPADSRPScaleFactor = 1;
+GMAT TARGET2.NAIFId = -10003001;
+GMAT TARGET2.NAIFIdReferenceFrame = -9003001;
+GMAT TARGET2.OrbitColor = Blue;
+GMAT TARGET2.TargetColor = DarkGray;
+GMAT TARGET2.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT TARGET2.CdSigma = 1e+70;
+GMAT TARGET2.CrSigma = 1e+70;
+GMAT TARGET2.Id = 'SatId';
+GMAT TARGET2.Attitude = CoordinateSystemFixed;
+GMAT TARGET2.SPADSRPInterpolationMethod = Bilinear;
+GMAT TARGET2.SPADSRPScaleFactorSigma = 1e+70;
+GMAT TARGET2.SPADDragInterpolationMethod = Bilinear;
+GMAT TARGET2.SPADDragScaleFactorSigma = 1e+70;
+GMAT TARGET2.ModelFile = 'aura.3ds';
+GMAT TARGET2.ModelOffsetX = 0;
+GMAT TARGET2.ModelOffsetY = 0;
+GMAT TARGET2.ModelOffsetZ = 0;
+GMAT TARGET2.ModelRotationX = 0;
+GMAT TARGET2.ModelRotationY = 0;
+GMAT TARGET2.ModelRotationZ = 0;
+GMAT TARGET2.ModelScale = 1;
+GMAT TARGET2.AttitudeDisplayStateType = 'Quaternion';
+GMAT TARGET2.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT TARGET2.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT TARGET2.EulerAngleSequence = '321';
+
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel HF_Prop_ForceModel;
+GMAT HF_Prop_ForceModel.CentralBody = Earth;
+GMAT HF_Prop_ForceModel.PrimaryBodies = {Earth};
+GMAT HF_Prop_ForceModel.Drag = None;
+GMAT HF_Prop_ForceModel.SRP = Off;
+GMAT HF_Prop_ForceModel.RelativisticCorrection = Off;
+GMAT HF_Prop_ForceModel.ErrorControl = RSSStep;
+GMAT HF_Prop_ForceModel.GravityField.Earth.Degree = 4;
+GMAT HF_Prop_ForceModel.GravityField.Earth.Order = 4;
+GMAT HF_Prop_ForceModel.GravityField.Earth.StmLimit = 100;
+GMAT HF_Prop_ForceModel.GravityField.Earth.PotentialFile = 'JGM2.cof';
+GMAT HF_Prop_ForceModel.GravityField.Earth.TideModel = 'None';
+
+Create ForceModel LF_Prop_ForceModel;
+GMAT LF_Prop_ForceModel.CentralBody = Earth;
+GMAT LF_Prop_ForceModel.PrimaryBodies = {Earth};
+GMAT LF_Prop_ForceModel.Drag = None;
+GMAT LF_Prop_ForceModel.SRP = Off;
+GMAT LF_Prop_ForceModel.RelativisticCorrection = Off;
+GMAT LF_Prop_ForceModel.ErrorControl = RSSStep;
+GMAT LF_Prop_ForceModel.GravityField.Earth.Degree = 0;
+GMAT LF_Prop_ForceModel.GravityField.Earth.Order = 0;
+GMAT LF_Prop_ForceModel.GravityField.Earth.StmLimit = 100;
+GMAT LF_Prop_ForceModel.GravityField.Earth.PotentialFile = 'JGM2.cof';
+GMAT LF_Prop_ForceModel.GravityField.Earth.TideModel = 'None';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator HF_Prop;
+GMAT HF_Prop.FM = HF_Prop_ForceModel;
+GMAT HF_Prop.Type = RungeKutta89;
+GMAT HF_Prop.InitialStepSize = 60;
+GMAT HF_Prop.Accuracy = 9.999999999999999e-12;
+GMAT HF_Prop.MinStep = 0.001;
+GMAT HF_Prop.MaxStep = 2700;
+GMAT HF_Prop.MaxStepAttempts = 50;
+GMAT HF_Prop.StopIfAccuracyIsViolated = true;
+
+Create Propagator LF_Prop;
+GMAT LF_Prop.FM = LF_Prop_ForceModel;
+GMAT LF_Prop.Type = RungeKutta89;
+GMAT LF_Prop.InitialStepSize = 60;
+GMAT LF_Prop.Accuracy = 9.999999999999999e-12;
+GMAT LF_Prop.MinStep = 0.001;
+GMAT LF_Prop.MaxStep = 2700;
+GMAT LF_Prop.MaxStepAttempts = 50;
+GMAT LF_Prop.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create ImpulsiveBurn INC_MODIF_BURN;
+GMAT INC_MODIF_BURN.CoordinateSystem = Local;
+GMAT INC_MODIF_BURN.Origin = Earth;
+GMAT INC_MODIF_BURN.Axes = VNB;
+GMAT INC_MODIF_BURN.Element1 = 0;
+GMAT INC_MODIF_BURN.Element2 = 0;
+GMAT INC_MODIF_BURN.Element3 = 0;
+GMAT INC_MODIF_BURN.DecrementMass = false;
+GMAT INC_MODIF_BURN.Isp = 300;
+GMAT INC_MODIF_BURN.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn HOHMANN1;
+GMAT HOHMANN1.CoordinateSystem = Local;
+GMAT HOHMANN1.Origin = Earth;
+GMAT HOHMANN1.Axes = VNB;
+GMAT HOHMANN1.Element1 = 0;
+GMAT HOHMANN1.Element2 = 0;
+GMAT HOHMANN1.Element3 = 0;
+GMAT HOHMANN1.DecrementMass = false;
+GMAT HOHMANN1.Isp = 300;
+GMAT HOHMANN1.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn HOHMANN2;
+GMAT HOHMANN2.CoordinateSystem = Local;
+GMAT HOHMANN2.Origin = Earth;
+GMAT HOHMANN2.Axes = VNB;
+GMAT HOHMANN2.Element1 = 0;
+GMAT HOHMANN2.Element2 = 0;
+GMAT HOHMANN2.Element3 = 0;
+GMAT HOHMANN2.DecrementMass = false;
+GMAT HOHMANN2.Isp = 300;
+GMAT HOHMANN2.GravitationalAccel = 9.81;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView Orbit_View;
+GMAT Orbit_View.SolverIterations = Current;
+GMAT Orbit_View.UpperLeft = [ 0.4270833333333333 0.3177777777777778 ];
+GMAT Orbit_View.Size = [ 0.5659722222222222 0.4988888888888889 ];
+GMAT Orbit_View.RelativeZOrder = 12;
+GMAT Orbit_View.Maximized = false;
+GMAT Orbit_View.Add = {HUNTER, TARGET1, TARGET2, Earth};
+GMAT Orbit_View.CoordinateSystem = EarthMJ2000Eq;
+GMAT Orbit_View.DrawObject = [ true true true ];
+GMAT Orbit_View.DataCollectFrequency = 1;
+GMAT Orbit_View.UpdatePlotFrequency = 1;
+GMAT Orbit_View.NumPointsToRedraw = 0;
+GMAT Orbit_View.ShowPlot = true;
+GMAT Orbit_View.MaxPlotPoints = 100;
+GMAT Orbit_View.ShowLabels = true;
+GMAT Orbit_View.ViewPointReference = Earth;
+GMAT Orbit_View.ViewPointVector = [ 20000 20000 0 ];
+GMAT Orbit_View.ViewDirection = Earth;
+GMAT Orbit_View.ViewScaleFactor = 1;
+GMAT Orbit_View.ViewUpCoordinateSystem = EarthMJ2000Eq;
+GMAT Orbit_View.ViewUpAxis = Z;
+GMAT Orbit_View.EclipticPlane = Off;
+GMAT Orbit_View.XYPlane = Off;
+GMAT Orbit_View.WireFrame = Off;
+GMAT Orbit_View.Axes = Off;
+GMAT Orbit_View.Grid = Off;
+GMAT Orbit_View.SunLine = Off;
+GMAT Orbit_View.UseInitialView = On;
+GMAT Orbit_View.StarCount = 7000;
+GMAT Orbit_View.EnableStars = On;
+GMAT Orbit_View.EnableConstellations = On;
+
+%----------------------------------------
+%---------- Arrays, Variables, Strings
+%----------------------------------------
+Create Variable PI wH wT H_TOF alpha phi_i phi_f WaitT ri rf;
+Create Variable mu_EARTH dV_normal_1 dV_negVel_1 dV_normal_2 dV_negVel_2 hohmann_dV1_1 hohmann_dV2_1 hohmann_dV1_2 hohmann_dV2_2 t_dI_1;
+Create Variable dI_1_norm dI_2_norm t_dI_2 t_H1_1 t_H2_1 t_H1_2 t_H2_2 dV_total;
+GMAT PI = 3.14159265; % General variables
+GMAT mu_EARTH = 398600.4418; % General variables
+
+
+
+
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+
+% -- RAAN DRIFT --
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2) {HUNTER.RAAN = TARGET1.RAAN, TARGET1.RAAN = HUNTER.RAAN};
+% Propagation until reaching a node 
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2) {HUNTER.Latitude = 0.0};
+
+% -- INCLINATION MODIFICATION
+GMAT dV_normal_1 = HUNTER.VMAG * sin((TARGET1.INC - HUNTER.INC) * PI / 180);
+GMAT dV_negVel_1 = HUNTER.VMAG * (1 - cos((TARGET1.INC - HUNTER.INC) * PI / 180));
+
+GMAT INC_MODIF_BURN.Element1 = -dV_negVel_1;
+If HUNTER.VZ <= 0
+   GMAT INC_MODIF_BURN.Element2 = - dV_normal_1;
+Else
+   GMAT INC_MODIF_BURN.Element2 = + dV_normal_1;
+EndIf;
+GMAT INC_MODIF_BURN.Element3 = 0;
+GMAT dI_1_norm = sqrt(dV_negVel_1^2 + dV_normal_1^2);
+
+Maneuver INC_MODIF_BURN(HUNTER);
+GMAT t_dI_1 = HUNTER.A1ModJulian;
+GMAT dV_total = dV_total + dI_1_norm;
+
+% -- Orbital rendezvous -- 
+GMAT wH = sqrt(mu_EARTH/HUNTER.SMA^3);
+GMAT wT = sqrt(mu_EARTH/TARGET1.SMA^3);
+
+GMAT H_TOF = PI * sqrt((HUNTER.SMA + TARGET1.SMA)^3 / (8 * mu_EARTH));
+GMAT alpha = wT * H_TOF;
+
+GMAT phi_i = ((TARGET1.TA + TARGET1.AOP) - (HUNTER.TA + HUNTER.AOP)) * PI / 180;
+GMAT phi_f = PI - alpha;
+
+GMAT WaitT = (phi_f - phi_i) / (wT - wH);
+While WaitT < 0
+   If wT > wH
+      GMAT WaitT = WaitT + 2*PI / (wT - wH);
+   EndIf;
+   If wT < wH
+      GMAT WaitT = WaitT - 2*PI / (wT - wH);
+   EndIf;
+EndWhile;
+
+GMAT ri = HUNTER.SMA;
+GMAT rf = TARGET1.SMA;
+
+GMAT hohmann_dV1_1 = sqrt(mu_EARTH/ri) * (sqrt(2*rf/(rf + ri)) - 1);
+GMAT hohmann_dV2_1 = sqrt(mu_EARTH/rf) * (1 - sqrt(2*ri/(rf + ri)));
+
+GMAT HOHMANN1.Element1 = hohmann_dV1_1;
+GMAT HOHMANN1.Element2 = 0;
+GMAT HOHMANN1.Element3 = 0;
+
+GMAT HOHMANN2.Element1 = hohmann_dV2_1;
+GMAT HOHMANN2.Element2 = 0;
+GMAT HOHMANN2.Element3 = 0;
+
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2) {HUNTER.ElapsedSecs = WaitT};
+Maneuver HOHMANN1(HUNTER);
+GMAT t_H1_1 = HUNTER.A1ModJulian;
+GMAT dV_total = dV_total + hohmann_dV1_1;
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2) {HUNTER.ElapsedSecs = H_TOF};
+Maneuver HOHMANN2(HUNTER);
+GMAT t_H2_1 = HUNTER.A1ModJulian;
+GMAT dV_total = dV_total + hohmann_dV2_1;
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2) {HUNTER.ElapsedSecs = 2.592E6};
+
+% ---------------------------
+% ------- END DEBRIS #1
+% ---------------------------
+
+% -- RAAN DRIFT --
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2) {HUNTER.RAAN = TARGET2.RAAN, TARGET2.RAAN = HUNTER.RAAN};
+
+% Propagation until reaching a node 
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2) {HUNTER.Latitude = 0.0};
+
+% -- INCLINATION MODIFICATION
+GMAT dV_normal_2 = HUNTER.VMAG * sin((TARGET2.INC - HUNTER.INC) * PI / 180);
+GMAT dV_negVel_2 = HUNTER.VMAG * (1 - cos((TARGET2.INC - HUNTER.INC) * PI / 180));
+
+GMAT INC_MODIF_BURN.Element1 = -dV_negVel_2;
+If HUNTER.VZ <= 0
+   GMAT INC_MODIF_BURN.Element2 = - dV_normal_2;
+Else
+   GMAT INC_MODIF_BURN.Element2 = + dV_normal_2;
+EndIf;
+GMAT INC_MODIF_BURN.Element3 = 0;
+GMAT dI_2_norm = sqrt(dV_negVel_2^2 + dV_normal_2^2);
+
+Maneuver INC_MODIF_BURN(HUNTER);
+GMAT t_dI_2 = HUNTER.A1ModJulian;
+GMAT dV_total = dV_total + dI_2_norm;
+
+
+% -- Orbital rendezvous -- 
+GMAT wH = sqrt(mu_EARTH/HUNTER.SMA^3);
+GMAT wT = sqrt(mu_EARTH/TARGET2.SMA^3);
+
+GMAT H_TOF = PI * sqrt((HUNTER.SMA + TARGET2.SMA)^3 / (8 * mu_EARTH));
+GMAT alpha = wT * H_TOF;
+
+GMAT phi_i = ((TARGET2.TA + TARGET2.AOP) - (HUNTER.TA + HUNTER.AOP)) * PI / 180;
+GMAT phi_f = PI - alpha;
+
+GMAT WaitT = (phi_f - phi_i) / (wT - wH);
+While WaitT < 0
+   If wT > wH
+      GMAT WaitT = WaitT + 2*PI / (wT - wH);
+   EndIf;
+   If wT < wH
+      GMAT WaitT = WaitT - 2*PI / (wT - wH);
+   EndIf;
+EndWhile;
+
+GMAT ri = HUNTER.SMA;
+GMAT rf = TARGET2.SMA;
+
+GMAT hohmann_dV1_2 = sqrt(mu_EARTH/ri) * (sqrt(2*rf/(rf + ri)) - 1);
+GMAT hohmann_dV2_2 = sqrt(mu_EARTH/rf) * (1 - sqrt(2*ri/(rf + ri)));
+
+GMAT HOHMANN1.Element1 = hohmann_dV1_2;
+GMAT HOHMANN1.Element2 = 0;
+GMAT HOHMANN1.Element3 = 0;
+
+GMAT HOHMANN2.Element1 = hohmann_dV2_2;
+GMAT HOHMANN2.Element2 = 0;
+GMAT HOHMANN2.Element3 = 0;
+
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2) {HUNTER.ElapsedSecs = WaitT};
+Maneuver HOHMANN1(HUNTER);
+GMAT t_H1_2 = HUNTER.A1ModJulian;
+GMAT dV_total = dV_total + hohmann_dV1_2;
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2) {HUNTER.ElapsedSecs = H_TOF};
+Maneuver HOHMANN2(HUNTER);
+GMAT t_H2_2 = HUNTER.A1ModJulian;
+GMAT dV_total = dV_total + hohmann_dV2_2;
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2) {HUNTER.ElapsedSecs = 2.592E6};

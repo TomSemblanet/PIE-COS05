@@ -82,7 +82,7 @@ def split_and_fill(G, grps, grp_idx):
 	return G
 
 
-def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol, DV_RAAN = None):
+def Metropolis(G_in, E_in, s_min, s_max, DV, debris_data, T, V_tol, t_tol, DV_RAAN = None):
 	''' Function computing the dynamic of Metropolis. 
 
 	Arguments:
@@ -220,7 +220,7 @@ def Metropolis(G_in, E_in, s_min, s_max, DV, DT, T, V_tol, t_tol, DV_RAAN = None
 	# ENERGY COMPUTATION #
 	######################
 
-	E = energy_computation(G,DV,DT,V_tol,t_tol,DV_RAAN=DV_RAAN)
+	E = energy_computation(G,DV,debris_data,V_tol,t_tol,DV_RAAN=DV_RAAN)
 
 	###################
 	# STATE SELECTION #
@@ -246,7 +246,7 @@ if __name__ == '__main__':
 
 	DV = np.array([[0,2,1,3,4,2],[0,0,1,2,5,1],[0,0,0,3,1,5],[0,0,0,0,3,8],[0,0,0,0,0,2],[0,0,0,0,0,0]])
 
-	G_in,E_in = Init_alea_G(nb_debris,s_min,s_max,DV,DT)
+	G_in,E_in = Init_alea_G(nb_debris,s_min,s_max,DV,debris_datas)
 
 	T = 1000 
 

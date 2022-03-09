@@ -9,7 +9,7 @@ import numpy as np
 import random as rd
 from regroupement.optimizer.energy_computation import energy_computation
 
-def Init_alea_G(nb_debris, s_min, s_max, DV, DT, V_tol, t_tol, DV_RAAN = None):
+def Init_alea_G(nb_debris, s_min, s_max, DV, debris_data, V_tol, t_tol, DV_RAAN = None):
 	''' Function used to initiate the optimization
 
 	Arguments:
@@ -73,7 +73,7 @@ def Init_alea_G(nb_debris, s_min, s_max, DV, DT, V_tol, t_tol, DV_RAAN = None):
 	#           Computation of the Energy           #
 	#################################################
 
-	E = energy_computation(G,DV,DT,V_tol,t_tol, DV_RAAN = DV_RAAN)
+	E = energy_computation(G,DV,debris_data,V_tol,t_tol, DV_RAAN = DV_RAAN)
 
 	#################################################
 

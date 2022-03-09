@@ -7,8 +7,11 @@ Created on 09/12/2021
 
 import numpy as np
 from itertools import permutations
+from regroupement.dV_computations.compute_dt_alignment import compute_dt, RAAN_evol
 
-def single_energy_computation(debris, DV, DT, DV_RAAN = None, V_tol = None, t_tol = None):
+RAAN_evol = np.vectorize(RAAN_evol)
+
+def single_energy_computation(debris, DV, debris_data, DV_RAAN = None, V_tol = None, t_tol = None):
 	''' Function used to compute the delta t (J2) associated to a state
 
 	Arguments:
@@ -16,7 +19,7 @@ def single_energy_computation(debris, DV, DT, DV_RAAN = None, V_tol = None, t_to
 		
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver	
 
-		DT (Matrix): Matrix containing the delta_t associated to each J2 drift
+		debris_data (Dataframe): Dataframe containing the orbital parameters of all debris
 
 		DV_RAAN (Matrix) - optionnal: None by default - Matrix containing the delta_v associated to each maneuver, including the ones in RAAN	
 
@@ -35,10 +38,19 @@ def single_energy_computation(debris, DV, DT, DV_RAAN = None, V_tol = None, t_to
 	dT = 0
 	nb_debris = len(debris)
 
+	SMAs = debris_data.values[debris,0]
+	INCs = debris_data.values[debris,2]
+	RAANs = debris_data.values[debris,3]
+	# print(RAANs)
+
 	if DV_RAAN is None :
 		for l in range(nb_debris-1):
 			dv = DV[debris[l],debris[l+1]]
-			dt = DT[debris[l],debris[l+1]]
+			dt = compute_dt(SMAs[l], SMAs[l+1], INCs[l], INCs[l+1], RAANs[l], RAANs[l+1])
+			RAANs[l+1:] = RAAN_evol(SMAs[l+1:],INCs[l+1:],dt*86400,RAANs[l+1:])
+
+			#print()
+			#print(RAANs)
 
 			dV += dv
 			dT += dt
@@ -51,7 +63,9 @@ def single_energy_computation(debris, DV, DT, DV_RAAN = None, V_tol = None, t_to
 		for l in range(nb_debris-1):
 			dv = DV[debris[l],debris[l+1]]
 			dv_raan = DV_RAAN[debris[l],debris[l+1]]
-			dt = DT[debris[l],debris[l+1]]
+
+			dt = compute_dt(SMAs[l], SMAs[l+1], INCs[l], INCs[l+1], RAANs[l], RAANs[l+1])
+			RAANs[l+1:] = RAAN_evol(SMAs[l+1:],INCs[l+1:],dt*86400,RAANs[l+1:])
 
 			if (dv_raan - dv)/V_tol < (dt/t_tol) :
 				# If RAAN maneuver costs less in delta_v than the J2 drift in years
@@ -64,7 +78,7 @@ def single_energy_computation(debris, DV, DT, DV_RAAN = None, V_tol = None, t_to
 		return dV,dT,RAAN_man
 
 
-def minimal_energy_computation(ordered_debris, DV, DT, V_tol, t_tol, DV_RAAN = None):
+def minimal_energy_computation(ordered_debris, DV, debris_data, V_tol, t_tol, DV_RAAN = None):
 	''' Function used to compute the energy associated to a state
 
 	Arguments:
@@ -72,7 +86,7 @@ def minimal_energy_computation(ordered_debris, DV, DT, V_tol, t_tol, DV_RAAN = N
 		
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
 		
-		DT (Matrix): Matrix containing the elapsed time associated to each "J2 perturbation duration" between two debris
+		debris_data (Dataframe): Dataframe containing the orbital parameters of all debris
 
 		V_tol (float) : Order of magnitude of tolerated dV for one mission in km/s
 
@@ -96,9 +110,9 @@ def minimal_energy_computation(ordered_debris, DV, DT, V_tol, t_tol, DV_RAAN = N
 
 	for debris in permutations(ordered_debris):
 		if DV_RAAN is None:
-			dV, dT = single_energy_computation(debris,DV,DT)
+			dV,dT = single_energy_computation(debris,DV,debris_data)
 		else:
-			dV, dT, RAAN_man = single_energy_computation(debris,DV,DT,DV_RAAN=DV_RAAN,V_tol=V_tol,t_tol=t_tol)
+			dV, dT, RAAN_man = single_energy_computation(debris,DV,debris_data,DV_RAAN=DV_RAAN,V_tol=V_tol,t_tol=t_tol)
 
 		# E = dV/V_tol + dT/t_tol
 		E = dV + V_tol/t_tol*dT
@@ -118,7 +132,7 @@ def minimal_energy_computation(ordered_debris, DV, DT, V_tol, t_tol, DV_RAAN = N
 
 
 
-def energy_computation(G, DV, DT, V_tol, t_tol, DV_RAAN = None, show_grps = False):
+def energy_computation(G, DV, debris_data, V_tol, t_tol, DV_RAAN = None, show_grps = False):
 	''' Function used to compute the energy associated to a state
 
 	Arguments:
@@ -126,7 +140,7 @@ def energy_computation(G, DV, DT, V_tol, t_tol, DV_RAAN = None, show_grps = Fals
 		
 		DV (Matrix): Matrix containing the delta_v associated to each maneuver
 		
-		DT (Matrix): Matrix containing the elapsed time associated to each "J2 perturbation duration" between two debris
+		debris_data (Dataframe): Dataframe containing the orbital parameters of all debris
 
 		V_tol (float) : Order of magnitude of tolerated dV for one mission in km/s
 
@@ -158,9 +172,9 @@ def energy_computation(G, DV, DT, V_tol, t_tol, DV_RAAN = None, show_grps = Fals
 		ordered_debris = np.nonzero(grp)[0]
 
 		if DV_RAAN is None :
-			dV, dT, debris_opt = minimal_energy_computation(ordered_debris,DV,DT,V_tol,t_tol)
+			dV, dT, debris_opt = minimal_energy_computation(ordered_debris,DV,debris_data,V_tol,t_tol)
 		else:
-			dV, dT, debris_opt, RAAN_man = minimal_energy_computation(ordered_debris,DV,DT,V_tol,t_tol,DV_RAAN=DV_RAAN)
+			dV, dT, debris_opt, RAAN_man = minimal_energy_computation(ordered_debris,DV,debris_data,V_tol,t_tol,DV_RAAN=DV_RAAN)
 
 		# std = np.std([dV/V_tol, dT/t_tol])
 		std = np.std([dV, V_tol*dT/t_tol])

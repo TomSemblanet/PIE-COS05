@@ -39,8 +39,32 @@ def RAAN_evol(a,i,t,RAAN_0):
 
     RAAN_t = -3/2*n*((R_eq/a)**2)*J2*np.cos(i)*t + RAAN_0
 
-    return RAAN_t
+    return RAAN_t % (2*np.pi)
 
+def compute_and_propagate(debris_op):
+
+    N=np.size(debris_op,0)
+
+    omega=np.zeros((N,N))
+    omega[:,0]=debris_op[:,3]
+
+    SMAs = debris_op[:,0]
+    INCs = debris_op[:,2]
+
+    dt=[]
+
+    for i in range (N-1):
+        ai = SMAs[i]
+        ai_1 = SMAs[i+1]
+        ii = INCs[i]
+        ii_1 = INCs[i+1]
+
+        dt.append(compute_dt(ai,ai_1,ii,ii_1,omega[i][i],omega[i+1][i])) 
+
+        if i < N-2 : 
+            omega[i+1:, i]= RAAN_evol(SMAs[i+1:], INCs[i+1:], dt[i], omega[i+1:,i])
+
+    return dt
 
 def compute_dt(a1,a2,i1,i2,RAAN1, RAAN2):
     """ 
