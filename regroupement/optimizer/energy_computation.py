@@ -41,16 +41,12 @@ def single_energy_computation(debris, DV, debris_data, DV_RAAN = None, V_tol = N
 	SMAs = debris_data.values[debris,0]
 	INCs = debris_data.values[debris,2]
 	RAANs = debris_data.values[debris,3]
-	# print(RAANs)
 
 	if DV_RAAN is None :
 		for l in range(nb_debris-1):
 			dv = DV[debris[l],debris[l+1]]
 			dt = compute_dt(SMAs[l], SMAs[l+1], INCs[l], INCs[l+1], RAANs[l], RAANs[l+1])
 			RAANs[l+1:] = RAAN_evol(SMAs[l+1:],INCs[l+1:],dt*86400,RAANs[l+1:])
-
-			#print()
-			#print(RAANs)
 
 			dV += dv
 			dT += dt

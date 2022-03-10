@@ -19,6 +19,8 @@ from regroupement.optimizer.energy_computation import single_energy_computation
 from regroupement.optimizer.Recuit import Recuit
 from regroupement.optimizer.Gibbs import Gibbs
 
+from GMAT.GMAT_SG import script_generator
+
 def plot_bars(Delta_v, Delta_t):
 
 	nb_groups = len(Delta_v)
@@ -70,8 +72,8 @@ if __name__ == "__main__":
 	###########################################################################
 
 	# Max and min number of debris per group
-	s_min = 3
-	s_max = 3
+	s_min = 4
+	s_max = 4
 
 	# Defining temperature
 	Ti = 0.001
@@ -165,6 +167,13 @@ if __name__ == "__main__":
 		plt.legend()
 		plt.xlabel('Groups')
 		plt.show()
+
+	##################### MISSION GENERATIONS #######################
+
+	folder_path = '/Users/yvan/Desktop/Cours 4A/PIE/PIE-COS05/GMAT/MISSIONS'
+	coe_i_H = [7000, 1E-5, 60 * np.pi / 180, 0 * np.pi / 180, 0 * np.pi / 180, 0 * np.pi / 180]
+
+	script_generator(folder_path = folder_path, coe_i_H = coe_i_H, db_indexs_mat = grps, debris_data_db = debris_data)
 
 
 

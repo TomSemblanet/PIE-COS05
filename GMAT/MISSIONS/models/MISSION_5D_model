@@ -1,72 +1,4 @@
 %----------------------------------------
-%---------- Spacecrafts
-%----------------------------------------
-Create Spacecraft HUNTER;
-GMAT HUNTER.DateFormat = UTCGregorian;
-GMAT HUNTER.Epoch = '04 Jul 2014 09:30:15.235';
-GMAT HUNTER.CoordinateSystem = EarthMJ2000Eq;
-GMAT HUNTER.DisplayStateType = Keplerian;
-GMAT HUNTER.SMA = 7000;
-GMAT HUNTER.ECC = 1e-05;
-GMAT HUNTER.INC = 59.99999999999999;
-GMAT HUNTER.RAAN = 0.0;
-GMAT HUNTER.AOP = 0.0;
-GMAT HUNTER.TA = 0.0;
-GMAT HUNTER.OrbitColor = Red;
-
-Create Spacecraft TARGET1;
-GMAT TARGET1.DateFormat = UTCGregorian;
-GMAT TARGET1.Epoch = '04 Jul 2014 09:30:15.235';
-GMAT TARGET1.CoordinateSystem = EarthMJ2000Eq;
-GMAT TARGET1.DisplayStateType = Keplerian;
-GMAT TARGET1.SMA = 7217.649250971347;
-GMAT TARGET1.ECC = 0.0011953;
-GMAT TARGET1.INC = 71.003;
-GMAT TARGET1.RAAN = 344.15700000000004;
-GMAT TARGET1.AOP = 71.5685;
-GMAT TARGET1.TA = 288.6736;
-GMAT TARGET1.OrbitColor = Green;
-
-Create Spacecraft TARGET2;
-GMAT TARGET2.DateFormat = UTCGregorian;
-GMAT TARGET2.Epoch = '04 Jul 2014 09:30:15.235';
-GMAT TARGET2.CoordinateSystem = EarthMJ2000Eq;
-GMAT TARGET2.DisplayStateType = Keplerian;
-GMAT TARGET2.SMA = 7351.052058375212;
-GMAT TARGET2.ECC = 0.0020145;
-GMAT TARGET2.INC = 82.9853;
-GMAT TARGET2.RAAN = 294.9242;
-GMAT TARGET2.AOP = 247.92430000000002;
-GMAT TARGET2.TA = 230.7627;
-GMAT TARGET2.OrbitColor = Blue;
-
-Create Spacecraft TARGET3;
-GMAT TARGET3.DateFormat = UTCGregorian;
-GMAT TARGET3.Epoch = '04 Jul 2014 09:30:15.235';
-GMAT TARGET3.CoordinateSystem = EarthMJ2000Eq;
-GMAT TARGET3.DisplayStateType = Keplerian;
-GMAT TARGET3.SMA = 7221.460964214413;
-GMAT TARGET3.ECC = 0.0004049;
-GMAT TARGET3.INC = 70.9967;
-GMAT TARGET3.RAAN = 257.82599999999996;
-GMAT TARGET3.AOP = 324.3489;
-GMAT TARGET3.TA = 35.7362;
-GMAT TARGET3.OrbitColor = Yellow;
-
-Create Spacecraft TARGET4;
-GMAT TARGET4.DateFormat = UTCGregorian;
-GMAT TARGET4.Epoch = '04 Jul 2014 09:30:15.235';
-GMAT TARGET4.CoordinateSystem = EarthMJ2000Eq;
-GMAT TARGET4.DisplayStateType = Keplerian;
-GMAT TARGET4.SMA = 7206.071017792673;
-GMAT TARGET4.ECC = 0.0019927;
-GMAT TARGET4.INC = 71.0135;
-GMAT TARGET4.RAAN = 276.2674;
-GMAT TARGET4.AOP = 57.3235;
-GMAT TARGET4.TA = 302.9809;
-GMAT TARGET4.OrbitColor = Orange;
-
-%----------------------------------------
 %---------- ForceModels
 %----------------------------------------
 
@@ -163,11 +95,11 @@ GMAT HOHMANN2.GravitationalAccel = 9.81;
 
 Create OrbitView Orbit_View;
 GMAT Orbit_View.SolverIterations = Current;
-GMAT Orbit_View.UpperLeft = [ 0.4340277777777778 0.1877777777777778 ];
+GMAT Orbit_View.UpperLeft = [ 0.4270833333333333 0.3177777777777778 ];
 GMAT Orbit_View.Size = [ 0.5652777777777778 0.4977777777777778 ];
-GMAT Orbit_View.RelativeZOrder = 230;
+GMAT Orbit_View.RelativeZOrder = 135;
 GMAT Orbit_View.Maximized = false;
-GMAT Orbit_View.Add = {HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, Earth};
+GMAT Orbit_View.Add = {HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5, Earth};
 GMAT Orbit_View.CoordinateSystem = EarthMJ2000Eq;
 GMAT Orbit_View.DrawObject = [ true true true ];
 GMAT Orbit_View.DataCollectFrequency = 1;
@@ -194,9 +126,9 @@ GMAT Orbit_View.EnableStars = On;
 GMAT Orbit_View.EnableConstellations = On;
 
 Create DynamicDataDisplay DynamicDataDisplay1;
-GMAT DynamicDataDisplay1.UpperLeft = [ 0.1638888888888889 0.02666666666666667 ];
-GMAT DynamicDataDisplay1.Size = [ 0.3472222222222222 0.5766666666666667 ];
-GMAT DynamicDataDisplay1.RelativeZOrder = 226;
+GMAT DynamicDataDisplay1.UpperLeft = [ 0.1652777777777778 0.02 ];
+GMAT DynamicDataDisplay1.Size = [ 0.3472222222222222 0.7 ];
+GMAT DynamicDataDisplay1.RelativeZOrder = 103;
 GMAT DynamicDataDisplay1.Maximized = false;
 GMAT DynamicDataDisplay1.AddParameters = {1, dI_1_norm, t_dI_1};
 GMAT DynamicDataDisplay1.AddParameters = {2, hohmann_dV1_1, t_H1_1};
@@ -210,7 +142,10 @@ GMAT DynamicDataDisplay1.AddParameters = {9, hohmann_dV2_3, t_H2_3};
 GMAT DynamicDataDisplay1.AddParameters = {10, dI_4_norm, t_dI_4};
 GMAT DynamicDataDisplay1.AddParameters = {11, hohmann_dV1_4, t_H1_4};
 GMAT DynamicDataDisplay1.AddParameters = {12, hohmann_dV2_4, t_H2_4};
-GMAT DynamicDataDisplay1.AddParameters = {13, dV_total, ''};
+GMAT DynamicDataDisplay1.AddParameters = {13, dI_5_norm, t_dI_5};
+GMAT DynamicDataDisplay1.AddParameters = {14, hohmann_dV1_5, t_H1_5};
+GMAT DynamicDataDisplay1.AddParameters = {15, hohmann_dV2_5, t_H2_5};
+GMAT DynamicDataDisplay1.AddParameters = {16, dV_total, ''};
 GMAT DynamicDataDisplay1.RowTextColors = {1, [0 0 0], [0 0 0]};
 GMAT DynamicDataDisplay1.RowTextColors = {2, [0 0 0], [0 0 0]};
 GMAT DynamicDataDisplay1.RowTextColors = {3, [0 0 0], [0 0 0]};
@@ -224,6 +159,9 @@ GMAT DynamicDataDisplay1.RowTextColors = {10, [0 0 0], [0 0 0]};
 GMAT DynamicDataDisplay1.RowTextColors = {11, [0 0 0], [0 0 0]};
 GMAT DynamicDataDisplay1.RowTextColors = {12, [0 0 0], [0 0 0]};
 GMAT DynamicDataDisplay1.RowTextColors = {13, [0 0 0], [0 0 0]};
+GMAT DynamicDataDisplay1.RowTextColors = {14, [0 0 0], [0 0 0]};
+GMAT DynamicDataDisplay1.RowTextColors = {15, [0 0 0], [0 0 0]};
+GMAT DynamicDataDisplay1.RowTextColors = {16, [0 0 0], [0 0 0]};
 GMAT DynamicDataDisplay1.WarnColor = [218 165 32];
 GMAT DynamicDataDisplay1.CritColor = [255 0 0];
 
@@ -231,14 +169,14 @@ GMAT DynamicDataDisplay1.CritColor = [255 0 0];
 %---------- Arrays, Variables, Strings
 %----------------------------------------
 Create Variable PI wH wT H_TOF alpha phi_i phi_f WaitT ri rf;
-Create Variable mu_EARTH dV_normal_1 dV_negVel_1 dV_normal_2 dV_negVel_2 dV_normal_3 dV_negVel_3 dV_normal_4 dV_negVel_4 hohmann_dV1_1;
-Create Variable hohmann_dV2_1 hohmann_dV1_2 hohmann_dV2_2 hohmann_dV1_3 hohmann_dV2_3 hohmann_dV1_4 hohmann_dV2_4 t_dI_1 t_dI_2 t_dI_3;
-Create Variable t_dI_4 t_H1_1 t_H2_1 t_H1_2 t_H2_2 t_H1_3 t_H2_3 t_H1_4 t_H2_4 dI_1_norm;
-Create Variable dI_2_norm dI_3_norm dI_4_norm dV_total;
+Create Variable mu_EARTH dV_normal_1 dV_negVel_1 dV_normal_2 dV_negVel_2 dV_normal_3 dV_negVel_3 dV_normal_4 dV_negVel_4 dV_normal_5;
+Create Variable dV_negVel_5 hohmann_dV1_1 hohmann_dV2_1 hohmann_dV1_2 hohmann_dV2_2 hohmann_dV1_3 hohmann_dV2_3 hohmann_dV1_4 hohmann_dV2_4 hohmann_dV1_5;
+Create Variable hohmann_dV2_5 t_dI_1 t_dI_2 t_dI_3 t_dI_4 t_dI_5 t_H1_1 t_H2_1 t_H1_2 t_H2_2;
+Create Variable t_H1_3 t_H2_3 t_H1_4 t_H2_4 t_H1_5 t_H2_5 dI_1_norm dI_2_norm dI_3_norm dI_4_norm;
+Create Variable dI_5_norm dV_total;
 GMAT PI = 3.14159265; % General variables
 GMAT mu_EARTH = 398600.4418; % General variables
 GMAT dV_total = 0;
-
 
 
 
@@ -252,9 +190,9 @@ GMAT dV_total = 0;
 BeginMissionSequence;
 
 % -- RAAN DRIFT --
-Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.RAAN = TARGET1.RAAN, TARGET1.RAAN = HUNTER.RAAN};
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.RAAN = TARGET1.RAAN, TARGET1.RAAN = HUNTER.RAAN};
 % Propagation until reaching a node 
-Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.Latitude = 0.0};
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.Latitude = 0.0};
 
 % -- INCLINATION MODIFICATION
 GMAT dV_normal_1 = HUNTER.VMAG * sin((TARGET1.INC - HUNTER.INC) * PI / 180);
@@ -268,6 +206,7 @@ Else
 EndIf;
 GMAT INC_MODIF_BURN.Element3 = 0;
 GMAT dI_1_norm = sqrt(dV_negVel_1^2 + dV_normal_1^2);
+UpdateDynamicData DynamicDataDisplay1;
 
 Maneuver INC_MODIF_BURN(HUNTER);
 GMAT t_dI_1 = HUNTER.A1ModJulian;
@@ -277,7 +216,6 @@ UpdateDynamicData DynamicDataDisplay1;
 % -- Orbital rendezvous -- 
 GMAT wH = sqrt(mu_EARTH/HUNTER.SMA^3);
 GMAT wT = sqrt(mu_EARTH/TARGET1.SMA^3);
-UpdateDynamicData DynamicDataDisplay1;
 
 GMAT H_TOF = PI * sqrt((HUNTER.SMA + TARGET1.SMA)^3 / (8 * mu_EARTH));
 GMAT alpha = wT * H_TOF;
@@ -309,12 +247,12 @@ GMAT HOHMANN2.Element1 = hohmann_dV2_1;
 GMAT HOHMANN2.Element2 = 0;
 GMAT HOHMANN2.Element3 = 0;
 
-Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.ElapsedSecs = WaitT};
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.ElapsedSecs = WaitT};
 Maneuver HOHMANN1(HUNTER);
 GMAT t_H1_1 = HUNTER.A1ModJulian;
 GMAT dV_total = dV_total + hohmann_dV1_1;
 UpdateDynamicData DynamicDataDisplay1;
-Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.ElapsedSecs = H_TOF};
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.ElapsedSecs = H_TOF};
 Maneuver HOHMANN2(HUNTER);
 GMAT t_H2_1 = HUNTER.A1ModJulian;
 GMAT dV_total = dV_total + hohmann_dV2_1;
@@ -325,10 +263,10 @@ UpdateDynamicData DynamicDataDisplay1;
 % ---------------------------
 
 % -- RAAN DRIFT --
-Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.RAAN = TARGET2.RAAN, TARGET2.RAAN = HUNTER.RAAN};
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.RAAN = TARGET2.RAAN, TARGET2.RAAN = HUNTER.RAAN};
 
 % Propagation until reaching a node 
-Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.Latitude = 0.0};
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.Latitude = 0.0};
 
 % -- INCLINATION MODIFICATION
 GMAT dV_normal_2 = HUNTER.VMAG * sin((TARGET2.INC - HUNTER.INC) * PI / 180);
@@ -383,12 +321,12 @@ GMAT HOHMANN2.Element1 = hohmann_dV2_2;
 GMAT HOHMANN2.Element2 = 0;
 GMAT HOHMANN2.Element3 = 0;
 
-Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.ElapsedSecs = WaitT};
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.ElapsedSecs = WaitT};
 Maneuver HOHMANN1(HUNTER);
 GMAT t_H1_2 = HUNTER.A1ModJulian;
 GMAT dV_total = dV_total + hohmann_dV1_2;
 UpdateDynamicData DynamicDataDisplay1;
-Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.ElapsedSecs = H_TOF};
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.ElapsedSecs = H_TOF};
 Maneuver HOHMANN2(HUNTER);
 GMAT t_H2_2 = HUNTER.A1ModJulian;
 GMAT dV_total = dV_total + hohmann_dV2_2;
@@ -400,10 +338,10 @@ UpdateDynamicData DynamicDataDisplay1;
 % ---------------------------
 
 % -- RAAN DRIFT --
-Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.RAAN = TARGET3.RAAN, TARGET3.RAAN = HUNTER.RAAN};
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.RAAN = TARGET3.RAAN, TARGET3.RAAN = HUNTER.RAAN};
 
 % Propagation until reaching a node 
-Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.Latitude = 0.0};
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.Latitude = 0.0};
 
 % -- INCLINATION MODIFICATION
 GMAT dV_normal_3 = HUNTER.VMAG * sin((TARGET3.INC - HUNTER.INC) * PI / 180);
@@ -458,12 +396,12 @@ GMAT HOHMANN2.Element1 = hohmann_dV2_3;
 GMAT HOHMANN2.Element2 = 0;
 GMAT HOHMANN2.Element3 = 0;
 
-Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.ElapsedSecs = WaitT};
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.ElapsedSecs = WaitT};
 Maneuver HOHMANN1(HUNTER);
 GMAT t_H1_3 = HUNTER.A1ModJulian;
 GMAT dV_total = dV_total + hohmann_dV1_3;
 UpdateDynamicData DynamicDataDisplay1;
-Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.ElapsedSecs = H_TOF};
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.ElapsedSecs = H_TOF};
 Maneuver HOHMANN2(HUNTER);
 GMAT t_H2_3 = HUNTER.A1ModJulian;
 GMAT dV_total = dV_total + hohmann_dV2_3;
@@ -474,10 +412,10 @@ UpdateDynamicData DynamicDataDisplay1;
 % ---------------------------
 
 % -- RAAN DRIFT --
-Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.RAAN = TARGET4.RAAN, TARGET4.RAAN = HUNTER.RAAN};
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.RAAN = TARGET4.RAAN, TARGET4.RAAN = HUNTER.RAAN};
 
 % Propagation until reaching a node 
-Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.Latitude = 0.0};
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.Latitude = 0.0};
 
 % -- INCLINATION MODIFICATION
 GMAT dV_normal_4 = HUNTER.VMAG * sin((TARGET4.INC - HUNTER.INC) * PI / 180);
@@ -532,13 +470,88 @@ GMAT HOHMANN2.Element1 = hohmann_dV2_4;
 GMAT HOHMANN2.Element2 = 0;
 GMAT HOHMANN2.Element3 = 0;
 
-Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.ElapsedSecs = WaitT};
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.ElapsedSecs = WaitT};
 Maneuver HOHMANN1(HUNTER);
 GMAT t_H1_4 = HUNTER.A1ModJulian;
-UpdateDynamicData DynamicDataDisplay1;
 GMAT dV_total = dV_total + hohmann_dV1_4;
-Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4) {HUNTER.ElapsedSecs = H_TOF};
+UpdateDynamicData DynamicDataDisplay1;
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.ElapsedSecs = H_TOF};
 Maneuver HOHMANN2(HUNTER);
 GMAT t_H2_4 = HUNTER.A1ModJulian;
 GMAT dV_total = dV_total + hohmann_dV2_4;
+UpdateDynamicData DynamicDataDisplay1;
+
+% ---------------------------
+% ------- END DEBRIS #4
+% ---------------------------
+
+
+% -- RAAN DRIFT --
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.RAAN = TARGET5.RAAN, TARGET5.RAAN = HUNTER.RAAN};
+
+% Propagation until reaching a node 
+Propagate HF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.Latitude = 0.0};
+
+% -- INCLINATION MODIFICATION
+GMAT dV_normal_5 = HUNTER.VMAG * sin((TARGET5.INC - HUNTER.INC) * PI / 180);
+GMAT dV_negVel_5 = HUNTER.VMAG * (1 - cos((TARGET5.INC - HUNTER.INC) * PI / 180));
+
+GMAT INC_MODIF_BURN.Element1 = -dV_negVel_5;
+If HUNTER.VZ <= 0
+   GMAT INC_MODIF_BURN.Element2 = - dV_normal_5;
+Else
+   GMAT INC_MODIF_BURN.Element2 = + dV_normal_5;
+EndIf;
+GMAT INC_MODIF_BURN.Element3 = 0;
+GMAT dI_5_norm = sqrt(dV_negVel_5^2 + dV_normal_5^2);
+UpdateDynamicData DynamicDataDisplay1;
+
+Maneuver INC_MODIF_BURN(HUNTER);
+GMAT t_dI_5 = HUNTER.A1ModJulian;
+GMAT dV_total = dV_total + dI_5_norm;
+UpdateDynamicData DynamicDataDisplay1;
+
+% -- Orbital rendezvous -- 
+GMAT wH = sqrt(mu_EARTH/HUNTER.SMA^3);
+GMAT wT = sqrt(mu_EARTH/TARGET5.SMA^3);
+
+GMAT H_TOF = PI * sqrt((HUNTER.SMA + TARGET5.SMA)^3 / (8 * mu_EARTH));
+GMAT alpha = wT * H_TOF;
+
+GMAT phi_i = ((TARGET5.TA + TARGET5.AOP) - (HUNTER.TA + HUNTER.AOP)) * PI / 180;
+GMAT phi_f = PI - alpha;
+
+GMAT WaitT = (phi_f - phi_i) / (wT - wH);
+While WaitT < 0
+   If wT > wH
+      GMAT WaitT = WaitT + 2*PI / (wT - wH);
+   EndIf;
+   If wT < wH
+      GMAT WaitT = WaitT - 2*PI / (wT - wH);
+   EndIf;
+EndWhile;
+
+GMAT ri = HUNTER.SMA;
+GMAT rf = TARGET5.SMA;
+
+GMAT hohmann_dV1_5 = sqrt(mu_EARTH/ri) * (sqrt(2*rf/(rf + ri)) - 1);
+GMAT hohmann_dV2_5 = sqrt(mu_EARTH/rf) * (1 - sqrt(2*ri/(rf + ri)));
+
+GMAT HOHMANN1.Element1 = hohmann_dV1_5;
+GMAT HOHMANN1.Element2 = 0;
+GMAT HOHMANN1.Element3 = 0;
+
+GMAT HOHMANN2.Element1 = hohmann_dV2_5;
+GMAT HOHMANN2.Element2 = 0;
+GMAT HOHMANN2.Element3 = 0;
+
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.ElapsedSecs = WaitT};
+Maneuver HOHMANN1(HUNTER);
+GMAT t_H1_5 = HUNTER.A1ModJulian;
+GMAT dV_total = dV_total + hohmann_dV1_5;
+UpdateDynamicData DynamicDataDisplay1;
+Propagate LF_Prop(HUNTER, TARGET1, TARGET2, TARGET3, TARGET4, TARGET5) {HUNTER.ElapsedSecs = H_TOF};
+Maneuver HOHMANN2(HUNTER);
+GMAT t_H2_5 = HUNTER.A1ModJulian;
+GMAT dV_total = dV_total + hohmann_dV2_5;
 UpdateDynamicData DynamicDataDisplay1;
