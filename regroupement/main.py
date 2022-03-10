@@ -70,8 +70,8 @@ if __name__ == "__main__":
 	###########################################################################
 
 	# Max and min number of debris per group
-	s_min = 4
-	s_max = 4
+	s_min = 3
+	s_max = 3
 
 	# Defining temperature
 	Ti = 0.001
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
 	alpha = 0.95
 
-	t_iter = 500
+	t_iter = 200
 	n_iter = 1
 	# t_ier = 350
 	# n_iter = 50
